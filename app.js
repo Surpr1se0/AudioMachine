@@ -81,47 +81,37 @@ reverbBTN.addEventListener("click", function(e) {
     }
 });
 
-// mousedown -> touchstart
-circle.addEventListener('touchstart', function (e) {
+//touchstart
+circle.addEventListener('mousedown', function (e) {
     if (mousedown) return;
 
-    e.preventDefault(); // Evite o comportamento padrão de toque
-
-    // Obtenha o primeiro toque da lista de toques
-    var touch = e.touches[0];
-
-    oscillator.frequency.value = calculateFrequency(touch.clientX, circle);
-    gainNode.gain.value = calculateGain(touch.clientY, circle);
+    oscillator.frequency.value = calculateFrequency(e.clientX, circle);
+    gainNode.gain.value = calculateGain(e.clientY, circle);
 
     oscillator.start();
     mousedown = true;
 });
 
-// mouseup -> touchend
-circle.addEventListener('touchend', function() {
+//touchend
+circle.addEventListener('mouseup', function() {
     if (mousedown) {
         oscillator.stop();
         mousedown = false;
     }
 });
 
-// mousemove -> touchmove
-circle.addEventListener('touchmove', function (e) {
+//touchmove
+circle.addEventListener('mousemove', function (e) {
     if (mousedown) {
-        e.preventDefault(); // Evite o comportamento padrão de toque
-
-        // Obtenha o primeiro toque da lista de toques
-        var touch = e.touches[0];
-
-        oscillator.frequency.value = calculateFrequency(touch.clientX, circle);
-        gainNode.gain.value = calculateGain(touch.clientY, circle);
+        oscillator.frequency.value = calculateFrequency(e.clientX, circle);
+        gainNode.gain.value = calculateGain(e.clientY, circle);
     }
 });
 
 function calculateFrequency(mouseXPosition, circle) {
     var minFrequency = 20,
         maxFrequency = 2000;
-    
+
     // dimensões do círculo
     var circleRect = circle.getBoundingClientRect();
     var circleWidth = circleRect.width;
@@ -129,7 +119,7 @@ function calculateFrequency(mouseXPosition, circle) {
 
     // posição relativa do rato dentro do círculo
     var relativeX = mouseXPosition - circleLeft;
-    
+
     // o rato está dentro do círculo
     if (relativeX >= 0 && relativeX <= circleWidth) {
         //mapear o rato para uma frequência dentro do círculo
@@ -143,7 +133,7 @@ function calculateFrequency(mouseXPosition, circle) {
 function calculateGain(mouseYPosition, circle) {
     var minGain = 0,
         maxGain = 1;
-    
+
     // dimensões do círculo
     var circleRect = circle.getBoundingClientRect();
     var circleHeight = circleRect.height;
@@ -151,7 +141,7 @@ function calculateGain(mouseYPosition, circle) {
 
     // posição relativa do mouse dentro do círculo
     var relativeY = mouseYPosition - circleTop;
-    
+
     //o rato está dentro do círculo
     if (relativeY >= 0 && relativeY <= circleHeight) {
         // mapear o rato para um ganho dentro do círculo
