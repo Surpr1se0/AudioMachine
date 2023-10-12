@@ -81,27 +81,40 @@ reverbBTN.addEventListener("click", function(e) {
     }
 });
 
-circle.addEventListener('mousedown', function (e) {
+// mousedown -> touchstart
+circle.addEventListener('touchstart', function (e) {
     if (mousedown) return;
 
-    oscillator.frequency.value = calculateFrequency(e.clientX, circle);
-    gainNode.gain.value = calculateGain(e.clientY, circle);
+    e.preventDefault(); // Evite o comportamento padrão de toque
+
+    // Obtenha o primeiro toque da lista de toques
+    var touch = e.touches[0];
+
+    oscillator.frequency.value = calculateFrequency(touch.clientX, circle);
+    gainNode.gain.value = calculateGain(touch.clientY, circle);
 
     oscillator.start();
     mousedown = true;
 });
 
-circle.addEventListener('mouseup', function() {
+// mouseup -> touchend
+circle.addEventListener('touchend', function() {
     if (mousedown) {
         oscillator.stop();
         mousedown = false;
     }
 });
 
-circle.addEventListener('mousemove', function (e) {
+// mousemove -> touchmove
+circle.addEventListener('touchmove', function (e) {
     if (mousedown) {
-        oscillator.frequency.value = calculateFrequency(e.clientX, circle);
-        gainNode.gain.value = calculateGain(e.clientY, circle);
+        e.preventDefault(); // Evite o comportamento padrão de toque
+
+        // Obtenha o primeiro toque da lista de toques
+        var touch = e.touches[0];
+
+        oscillator.frequency.value = calculateFrequency(touch.clientX, circle);
+        gainNode.gain.value = calculateGain(touch.clientY, circle);
     }
 });
 
