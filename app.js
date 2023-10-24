@@ -4,8 +4,11 @@ Tone.start();
 var mousedown = false;
 var oscillator = new Tone.Oscillator().toDestination();
 var isReverbActive = false;
+var isDistortionActive = false;
 
 var reverb = new Tone.Reverb().toDestination();
+var distortion = new Tone.Distortion(0.8).toDestination();
+
 var gainNode = new Tone.Gain();
 oscillator.connect(gainNode);
 
@@ -30,8 +33,11 @@ const digital_tomSampler = new Tone.Sampler({
 }).toDestination();
 
 
-var reverbBTN = document.getElementById('reverb-btn');
-const circle = document.getElementById('circle');
+var reverbBTN = document.getElementById('reverb-btn1');
+var distortionBTN = document.getElementById('reverb-btn2');
+
+const circle_left = document.getElementById('circle-left');
+// const circle_right = document.getElementById('circle-right');
 const kickBTN = document.getElementById('kick-btn');
 const snareBTN = document.getElementById('snare-btn');
 const hi_hatBTN = document.getElementById('hi_hat-btn');
@@ -40,7 +46,7 @@ const tomBTN = document.getElementById('tom-btn');
 const digital_tomBTN = document.getElementById('digital_tom-btn');
 
 
-kickBTN.addEventListener('click', function() {
+kickBTN.addEventListener('click', function() {  
     kickSampler.triggerAttack('C4');
 });
 
@@ -64,6 +70,15 @@ digital_tomBTN.addEventListener('click', function() {
     digital_tomSampler.triggerAttack('C4');
 });
 
+var fxSlider = document.getElementById('fx-slider1');
+
+fxSlider.addEventListener('input', function() {
+    var fxLevel = parseFloat(fxSlider.value);
+    reverb.wet.value = fxLevel;
+    distortion.wet.value = fxLevel;
+
+});
+
 reverbBTN.addEventListener("click", function(e) {
     isReverbActive = !isReverbActive;
     console.log(isReverbActive);
@@ -81,19 +96,36 @@ reverbBTN.addEventListener("click", function(e) {
     }
 });
 
+distortionBTN.addEventListener("click", function(e) {
+    isDistortionActive = !isDistortionActive;
+    console.log(isDistortionActive);
+
+    if (isDistortionActive) {
+        oscillator.disconnect();
+        oscillator.connect(gainNode);
+        gainNode.connect(distortion);
+        distortion.toDestination();
+    } else {
+        distortion.disconnect();
+        oscillator.disconnect();
+        oscillator.connect(gainNode);
+        gainNode.toDestination();
+    }
+});
+
 //touchstart
-circle.addEventListener('mousedown', function (e) {
+circle_left.addEventListener('mousedown', function (e) {
     if (mousedown) return;
 
-    oscillator.frequency.value = calculateFrequency(e.clientX, circle);
-    gainNode.gain.value = calculateGain(e.clientY, circle);
+    oscillator.frequency.value = calculateFrequency(e.clientX, circle_left);
+    gainNode.gain.value = calculateGain(e.clientY, circle_left);
 
     oscillator.start();
     mousedown = true;
 });
 
 //touchend
-circle.addEventListener('mouseup', function() {
+circle_left.addEventListener('mouseup', function() {
     if (mousedown) {
         oscillator.stop();
         mousedown = false;
@@ -101,19 +133,19 @@ circle.addEventListener('mouseup', function() {
 });
 
 //touchmove
-circle.addEventListener('mousemove', function (e) {
+circle_left.addEventListener('mousemove', function (e) {
     if (mousedown) {
-        oscillator.frequency.value = calculateFrequency(e.clientX, circle);
-        gainNode.gain.value = calculateGain(e.clientY, circle);
+        oscillator.frequency.value = calculateFrequency(e.clientX, circle_left);
+        gainNode.gain.value = calculateGain(e.clientY, circle_left);
     }
 });
 
-function calculateFrequency(mouseXPosition, circle) {
+function calculateFrequency(mouseXPosition, circle_left) {
     var minFrequency = 20,
         maxFrequency = 2000;
 
     // dimensões do círculo
-    var circleRect = circle.getBoundingClientRect();
+    var circleRect = circle_left.getBoundingClientRect();
     var circleWidth = circleRect.width;
     var circleLeft = circleRect.left;
 
@@ -130,12 +162,12 @@ function calculateFrequency(mouseXPosition, circle) {
     }
 }
 
-function calculateGain(mouseYPosition, circle) {
+function calculateGain(mouseYPosition, circle_left) {
     var minGain = 0,
         maxGain = 1;
 
     // dimensões do círculo
-    var circleRect = circle.getBoundingClientRect();
+    var circleRect = circle_left.getBoundingClientRect();
     var circleHeight = circleRect.height;
     var circleTop = circleRect.top;
 

@@ -1,5 +1,5 @@
 html, body {
-    background: darkmagenta;
+    background: #414040;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -21,24 +21,28 @@ html, body {
 }
 
 .circular-btn {
-  width: 50px; /* Largura igual à altura para torná-lo um círculo perfeito */
-  height: 50px;
-  background-color: #3498db; /* Cor de fundo */
-  border: none; /* Remova a borda */
-  border-radius: 50%; /* Transforme-o em um círculo */
-  color: #fff; /* Cor do texto */
-  font-size: 16px; /* Tamanho da fonte */
-  cursor: pointer; /* Transforma o cursor em uma mão quando paira */
-  margin: 5px; /* Espaçamento entre os botões */
+  width: 100px;
+  height: 100px;
+  background-color: #3498db;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%; /* Posiciona no meio verticalmente */
+  left: 50%; /* Posiciona no meio horizontalmente */
+  transform: translate(-50%, -50%); /* Centraliza o botão */
 }
 
-/* Estilos específicos para cada botão */
-#kick-btn {
-  background-color: #e74c3c; /* Cor diferente para o botão Kick */
+#reverb-btn1 {
+    transform: translate(120px, -400px);
 }
 
-#snare-btn {
-  background-color: #27ae60; /* Cor diferente para o botão Snare */
+#reverb-btn2 {
+  transform: translate(120px, -400px);
 }
 
 #circle {
@@ -46,9 +50,44 @@ html, body {
   height: 400px;
   background-color: #3498db;
   border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  transition: box-shadow 150ms ease-out;
+	&:focus {
+		box-shadow: 0 0 0 8px rgba(#fff, 0.5);
+	}
+}
+
+#circle-left {
+  width: 400px;
+  height: 400px;
+  background-color: #3498db;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px; /* Espaço para ajustar a posição dos botões */
+  transform: rotate(-90deg); /* Rotaciona o círculo para que o início seja na parte superior */
+}
+
+#kick-btn{
+  background-color: #e74c3c;
+  /* Calcula a posição para o botão Kick */
+  transform: translate(190%, 190%) rotate(30deg) translateX(200px);
+}
+
+#snare-btn {
+  background-color: #e74c3c;
+  /* Calcula a posição para o botão Kick */
+  transform: translate(350%, 230%) rotate(60deg) translateX(200px);
+}
+
+#tom-btn {
+  background-color: #e74c3c;
+  /* Calcula a posição para o botão Kick */
+  transform: translate(150%, -100%) rotate(45deg) translateX(400px);
 }

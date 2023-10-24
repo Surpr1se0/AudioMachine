@@ -9,21 +9,27 @@
     </head>
     <body>
 
-        <!-- Instruments -->
-        <button id="kick-btn" class="circular-btn">Kick</button>
-        <button id="snare-btn" class="circular-btn">Snare</button>
-        <button id="tom-btn" class="circular-btn">Tom</button>
-        <button id="digital_tom-btn" class="circular-btn">Digital Tom</button>
-        <button id="clap-btn" class="circular-btn">Clap</button>
-        <button id="hi_hat-btn" class="circular-btn">Hi-Hat</button>
+        <!-- Sliders -->
+        <input type="range" id="fx-slider1" min="0" max="1" step="0.01" value="0">    
 
+        <!-- Instruments -->
+            <button id="kick-btn" class="circular-btn">Kick</button>
+            <button id="snare-btn" class="circular-btn">Snare</button>
+            <button id="tom-btn" class="circular-btn">Tom</button>
+            <button id="digital_tom-btn" class="circular-btn">Digital Tom</button>
+            <button id="clap-btn" class="circular-btn">Clap</button>
+            <button id="hi_hat-btn" class="circular-btn">Hi-Hat</button>
         <!-- Fx -->
-        <button id="reverb-btn" class="fx-btn">
+        <button id="reverb-btn1" class="fx-btn">
+            <img src="img/star.png" alt="Kick">
+        </button>
+        <button id="reverb-btn2" class="fx-btn">
             <img src="img/star.png" alt="Kick">
         </button>
 
-
-        <div id="circle"></div>
+        <!-- PROBLEMA É FALTAR O CIRCULAR-BTN DE CLASSE -->
+        <div id="circle-left"></div>
+        <div id="circle-right"></div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
