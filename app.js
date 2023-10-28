@@ -70,13 +70,39 @@ digital_tomBTN.addEventListener('click', function() {
     digital_tomSampler.triggerAttack('C4');
 });
 
-var fxSlider = document.getElementById('fx-slider1');
+// var fxSlider = document.getElementById('fx-slider1');
 
-fxSlider.addEventListener('input', function() {
-    var fxLevel = parseFloat(fxSlider.value);
-    reverb.wet.value = fxLevel;
-    distortion.wet.value = fxLevel;
+// fxSlider.addEventListener('input', function() {
+//     var fxLevel = parseFloat(fxSlider.value);
+//     reverb.wet.value = fxLevel;
+//     distortion.wet.value = fxLevel;
 
+// });
+
+const fxSlider = interact('.slider');
+
+fxSlider.draggable({
+  origin: 'self',
+  inertia: true,
+  modifiers: [
+    interact.modifiers.restrict({
+      restriction: 'self'
+    })
+  ],
+  listeners: {
+    move(event) {
+      const sliderWidth = interact.getElementRect(event.target).width;
+      const value = event.pageX / sliderWidth;
+      
+      event.target.style.paddingLeft = (value * 100) + '%';
+      event.target.setAttribute('data-value', value.toFixed(2));
+      
+      // Atualizar os valores de reverb.wet.value e distortion.wet.value aqui
+      var fxLevel = value; // Use o valor calculado acima ou ajuste conforme necessário
+      reverb.wet.value = fxLevel;
+      distortion.wet.value = fxLevel;
+    }
+  }
 });
 
 reverbBTN.addEventListener("click", function(e) {
