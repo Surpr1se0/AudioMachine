@@ -1,27 +1,31 @@
 html, body {
-    background: #414040;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .fx-btn {
-  background: none;
+  /* background: none;
   border: none;
   padding: 0;
-  margin: 0;
+  margin: 0; */
 }
 
 .fx-btn img {
-  width: 80px; /* Largura da imagem */
-  height: 80px; /* Altura da imagem */
-  opacity: 0.7; /* Opacidade da imagem (opcional) */
-  border-radius: 50%; /* Para criar uma forma de círculo (opcional) */
+  /* width: 80px;
+  height: 80px; 
+  opacity: 0.7; 
+  border-radius: 50%;  */
 }
 
 .circular-btn {
-  width: 100px;
+  /* width: 100px;
   height: 100px;
   background-color: #3498db;
   border: none;
@@ -32,21 +36,24 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  top: 50%; /* Posiciona no meio verticalmente */
-  left: 50%; /* Posiciona no meio horizontalmente */
-  transform: translate(-50%, -50%); /* Centraliza o botão */
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);  */
 }
 
 .sliders {
-  padding: 1.5em;
   width: 30%;
 }
 /* the slider bar */
 .slider {
+  position: absolute;
+  top: 400px;
+  left: 50px;
+  z-index: 1; 
   position: relative;
   width: 100%;
   height: 1em;
-  margin: 1.5em auto;
+  margin: 0;
   background-color: #29e;
   border-radius: 0.5em;
   box-sizing: border-box;
@@ -68,18 +75,25 @@ html, body {
   height: 2em;
   margin-left: -1em;
   border: solid 0.25em #fff;
-  border-radius: 1em;
+  border-radius: 0.5em;
   background-color: inherit;
 
-  box-sizing: border-box;
 }
 
 #reverb-btn1 {
-    transform: translate(120px, -400px);
+    /* transform: translate(120px, -400px); */
+    position: absolute;
+    top: 100px;
+    left: 50px;
+    z-index: 1; 
 }
 
 #reverb-btn2 {
-  transform: translate(120px, -400px);
+  /* transform: translate(120px, -400px); */
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  z-index: 1; 
 }
 
 #circle {
@@ -107,24 +121,58 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px; /* Espaço para ajustar a posição dos botões */
-  transform: rotate(-90deg); /* Rotaciona o círculo para que o início seja na parte superior */
+  padding: 20px;
+  transform: rotate(-90deg); 
 }
 
 #kick-btn{
+  position: absolute;
+  top: 100px;
+  left: 700px;
+  z-index: 1; 
+  /* position: absolute;
+  top: 100px; 
+  left: 50px;
+  z-index: 1; 
   background-color: #e74c3c;
-  /* Calcula a posição para o botão Kick */
-  transform: translate(190%, 190%) rotate(30deg) translateX(200px);
+  transform: translate(190%, 190%) rotate(30deg) translateX(200px); */
 }
 
 #snare-btn {
-  background-color: #e74c3c;
-  /* Calcula a posição para o botão Kick */
-  transform: translate(350%, 230%) rotate(60deg) translateX(200px);
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  z-index: 1; 
+  /* background-color: #e74c3c;
+  transform: translate(350%, 230%) rotate(60deg) translateX(200px); */
 }
 
 #tom-btn {
-  background-color: #e74c3c;
-  /* Calcula a posição para o botão Kick */
-  transform: translate(150%, -100%) rotate(45deg) translateX(400px);
+    position: absolute;
+  top: 50px;
+  left: 50px;
+  z-index: 1; 
+  /* background-color: #e74c3c;
+  transform: translate(150%, -100%) rotate(45deg) translateX(400px); */
+}
+
+#digital_tom-btn{
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  z-index: 1; 
+}
+
+#clap-btn{
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  z-index: 1; 
+}
+
+#hi_hat-btn{
+  position: absolute;
+  top: 100px;
+  left: 50px;
+  z-index: 1; 
 }

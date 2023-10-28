@@ -8,35 +8,38 @@
         <link rel="icon" href="./img/icon.png" type="image/x-icon">
     </head>
     <body>
-
         <!-- Sliders -->
         <div class="sliders">
             <div class="slider"></div>
         </div>
 
         <!-- Instruments -->
-            <button id="kick-btn" class="circular-btn">Kick</button>
-            <button id="snare-btn" class="circular-btn">Snare</button>
-            <button id="tom-btn" class="circular-btn">Tom</button>
-            <button id="digital_tom-btn" class="circular-btn">Digital Tom</button>
-            <button id="clap-btn" class="circular-btn">Clap</button>
-            <button id="hi_hat-btn" class="circular-btn">Hi-Hat</button>
+        <button id="kick-btn" class="circular-btn">Kick</button>
+        <button id="snare-btn" class="circular-btn">Snare</button>
+        <button id="tom-btn" class="circular-btn">Tom</button>
+        <button id="digital_tom-btn" class="circular-btn">Digital Tom</button>
+        <button id="clap-btn" class="circular-btn">Clap</button>
+        <button id="hi_hat-btn" class="circular-btn">Hi-Hat</button>
         <!-- Fx -->
         <button id="reverb-btn1" class="fx-btn">
-            <img src="img/star.png" alt="Kick">
+            <!-- <img src="img/star.png" alt="Kick"> -->
         </button>
         <button id="reverb-btn2" class="fx-btn">
-            <img src="img/star.png" alt="Kick">
+            <!-- <img src="img/star.png" alt="Kick"> -->
         </button>
 
         <!-- PROBLEMA É FALTAR O CIRCULAR-BTN DE CLASSE -->
         <div id="circle-left"></div>
-        <div id="circle-right"></div>
+        <!-- <div id="circle-right"></div> -->
+
+        <canvas id="c"></canvas>
 
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/1.0.0/anime.min.js"></script>
 
         <script src="app.js"></script>
     </body>
