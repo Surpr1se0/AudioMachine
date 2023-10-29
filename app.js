@@ -377,14 +377,22 @@ function AnimateClick() {
 
 var mousedown = false;
 var oscillator = new Tone.Oscillator().toDestination();
+var fat = new Tone.FatOscillator("A3", "sine", 40).toDestination();
+
 var isReverbActive = false;
 var isDistortionActive = false;
+var isCrusherActive = false;
+var isTremoloActive = false;
 
 var reverb = new Tone.Reverb().toDestination();
 var distortion = new Tone.Distortion(0.8).toDestination();
+var crusher = new Tone.Phaser({frequency: 15, octaves: 5, baseFrequency: 1000}).toDestination();
+var tremolo = new Tone.PingPongDelay("4n", 0.2).toDestination();
 
 var gainNode = new Tone.Gain();
 oscillator.connect(gainNode);
+var gainNodeRight = new Tone.Gain();
+fat.connect(gainNodeRight);
 
 const kickSampler = new Tone.Sampler({
   C4: "./samples/kick.wav",
@@ -408,8 +416,11 @@ const digital_tomSampler = new Tone.Sampler({
 var reverbBTN = document.getElementById("fx-left-btn1");
 var distortionBTN = document.getElementById("fx-left-btn2");
 
+var crusherBTN = document.getElementById("fx-right-btn1");
+var tremoloBTN = document.getElementById("fx-right-btn2");
+
 const circle_left = document.getElementById("circle-left");
-// const circle_right = document.getElementById('circle-right');
+const circle_right = document.getElementById('circle-right');
 const kickBTN = document.getElementById("kick-btn");
 const snareBTN = document.getElementById("snare-btn");
 const hi_hatBTN = document.getElementById("hi_hat-btn");
@@ -490,8 +501,8 @@ fxSlider1.draggable({
 
       // Atualizar os valores de reverb.wet.value e distortion.wet.value aqui
       var fxLevel = value; // Use o valor calculado acima ou ajuste conforme necessário
-      reverb.wet.value = fxLevel;
-      distortion.wet.value = fxLevel;
+      crusher.wet.value = fxLevel;
+      tremolo.wet.value = fxLevel;
     },
   },
 });
@@ -530,6 +541,40 @@ distortionBTN.addEventListener("click", function (e) {
   }
 });
 
+crusherBTN.addEventListener("click", function (e) {
+  isCrusherActive = !isCrusherActive;
+  console.log(isCrusherActive);
+
+  if (isCrusherActive) {
+    fat.disconnect();
+    fat.connect(gainNodeRight);
+    gainNodeRight.connect(crusher);
+    crusher.toDestination();
+  } else {
+    crusher.disconnect();
+    fat.disconnect();
+    fat.connect(gainNodeRight);
+    gainNodeRight.toDestination();
+  }
+});
+
+tremoloBTN.addEventListener("click", function (e) {
+  isTremoloActive = !isTremoloActive;
+  console.log(isTremoloActive);
+
+  if (isTremoloActive) {
+    fat.disconnect();
+    fat.connect(gainNodeRight);
+    gainNodeRight.connect(tremolo);
+    tremolo.toDestination();
+  } else {
+    tremolo.disconnect();
+    fat.disconnect();
+    fat.connect(gainNodeRight);
+    gainNodeRight.toDestination();
+  }
+});
+
 //touchstart
 circle_left.addEventListener("mousedown", function (e) {
   if (mousedown) return;
@@ -554,6 +599,32 @@ circle_left.addEventListener("mousemove", function (e) {
   if (mousedown) {
     oscillator.frequency.value = calculateFrequency(e.clientX, circle_left);
     gainNode.gain.value = calculateGain(e.clientY, circle_left);
+  }
+});
+
+circle_right.addEventListener("mousedown", function (e) {
+  if (mousedown) return;
+
+  fat.frequency.value = calculateFrequencyReverse(e.clientX, circle_right);
+  gainNodeRight.gain.value = calculateGainReverse(e.clientY, circle_right);
+
+  fat.start();
+  mousedown = true;
+});
+
+//touchend
+circle_right.addEventListener("mouseup", function () {
+  if (mousedown) {
+    fat.stop();
+    mousedown = false;
+  }
+});
+
+//touchmove
+circle_right.addEventListener("mousemove", function (e) {
+  if (mousedown) {
+    fat.frequency.value = calculateFrequencyReverse(e.clientX, circle_right);
+    gainNodeRight.gain.value = calculateGainReverse(e.clientY, circle_right);
   }
 });
 
@@ -600,3 +671,38 @@ function calculateGain(mouseYPosition, circle_left) {
     return minGain;
   }
 }
+
+function calculateFrequencyReverse(mouseXPosition, circle_right) {
+  var minFrequency = 20,
+    maxFrequency = 2000;
+
+  var circleRect = circle_right.getBoundingClientRect();
+  var circleWidth = circleRect.width;
+  var circleLeft = circleRect.left;
+
+  var relativeX = mouseXPosition - circleLeft;
+
+  if (relativeX >= 0 && relativeX <= circleWidth) {
+    return maxFrequency - (relativeX / circleWidth) * maxFrequency + minFrequency;
+  } else {
+    return -1;
+  }
+}
+
+function calculateGainReverse(mouseYPosition, circle_right) {
+  var minGain = 0,
+    maxGain = 1;
+
+  var circleRect = circle_right.getBoundingClientRect();
+  var circleHeight = circleRect.height;
+  var circleTop = circleRect.top;
+
+  var relativeY = mouseYPosition - circleTop;
+
+  if (relativeY >= 0 && relativeY <= circleHeight) {
+    return (relativeY / circleHeight) * maxGain + minGain;
+  } else {
+    return minGain;
+  }
+}
+
