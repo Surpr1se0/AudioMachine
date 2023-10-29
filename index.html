@@ -1,46 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>Web Audio</title>
-        <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="./img/icon.png" type="image/x-icon">
-    </head>
-    <body>
-        <!-- Sliders -->
-        <div class="sliders">
-            <div class="slider"></div>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Web Audio</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="./img/icon.png" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- Sliders -->
+    <div class="sliders">
+      <div class="slider-left"></div>
+      <div class="slider-right"></div>
+    </div>
 
-        <!-- Instruments -->
-        <button id="kick-btn" class="circular-btn">Kick</button>
-        <button id="snare-btn" class="circular-btn">Snare</button>
-        <button id="tom-btn" class="circular-btn">Tom</button>
-        <button id="digital_tom-btn" class="circular-btn">Digital Tom</button>
-        <button id="clap-btn" class="circular-btn">Clap</button>
-        <button id="hi_hat-btn" class="circular-btn">Hi-Hat</button>
-        <!-- Fx -->
-        <button id="reverb-btn1" class="fx-btn">
-            <!-- <img src="img/star.png" alt="Kick"> -->
-        </button>
-        <button id="reverb-btn2" class="fx-btn">
-            <!-- <img src="img/star.png" alt="Kick"> -->
-        </button>
+    <!-- Instruments -->
+    <button id="kick-btn" class="circular-btn">Kick</button>
+    <button id="snare-btn" class="circular-btn">Snare</button>
+    <button id="tom-btn" class="circular-btn">Tom</button>
+    <button id="digital_tom-btn" class="circular-btn">Digital Tom</button>
+    <button id="clap-btn" class="circular-btn">Clap</button>
+    <button id="hi_hat-btn" class="circular-btn">Hi-Hat</button>
 
-        <!-- PROBLEMA É FALTAR O CIRCULAR-BTN DE CLASSE -->
-        <div id="circle-left"></div>
-        <!-- <div id="circle-right"></div> -->
+    <!-- Fx -->
+    <button id="fx-left-btn1" class="fx-btn">Fx 1</button>
+    <button id="fx-left-btn2" class="fx-btn">Fx 2</button>
+    <button id="fx-right-btn1" class="fx-btn">Fx 1</button>
+    <button id="fx-right-btn2" class="fx-btn">Fx 2</button>
 
-        <canvas id="c"></canvas>
+    <!-- Circles -->
+    <div id="circle-left"></div>
+    <div id="circle-right"></div>
 
-        <!-- Scripts -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <canvas id="c"></canvas>
 
-        <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+    <!-- Scripts -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
+      integrity="sha512-jduERlz7En1IUZR54bqzpNI64AbffZWR//KJgF71SJ8D8/liKFZ+s1RxmUmB+bhCnIfzebdZsULwOrbVB5f3nQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/1.0.0/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 
-        <script src="app.js"></script>
-    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/1.0.0/anime.min.js"></script>
+
+    <script src="app.js"></script>
+
+    <script src="animate_canvas.js"></script>
+  </body>
 </html>
