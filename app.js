@@ -347,16 +347,17 @@ function AnimateClick() {
     },
   });
 
-  reverbBTN.addEventListener(
-    tap,
-    function (e) {
-      window.human = true;
-      render.play();
-      updateCoords(e);
-      animateParticules(pointerX, pointerY);
-    },
-    false
-  );
+  function handleFXButtonClick(e) {
+    window.human = true;
+    render.play();
+    updateCoords(e);
+    animateParticules(pointerX, pointerY);
+  }
+  
+  reverbBTN.addEventListener(tap, handleFXButtonClick, false);
+  distortionBTN.addEventListener(tap, handleFXButtonClick, false);
+  crusherBTN.addEventListener(tap, handleFXButtonClick, false);
+  tremoloBTN.addEventListener(tap, handleFXButtonClick, false);
 
   var centerX = window.innerWidth / 2;
   var centerY = window.innerHeight / 2;
