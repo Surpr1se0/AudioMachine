@@ -159,7 +159,6 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  transform: rotate(-90deg);
 }
 
 #clap-btn {
@@ -213,3 +212,57 @@ body {
   /* background-color: #e74c3c;
   transform: translate(150%, -100%) rotate(45deg) translateX(400px); */
 }
+
+
+
+/* talvez depois apague isto */
+
+#circle-left {
+  bottom: 0;
+  left: 0;
+  width: 450px;
+  height: 450px;
+  background-color: #3498db;
+  border-radius: 50%;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+
+
+  background-color: #3498db;
+  padding: 20px;
+  text-align: center;
+  transition-duration: 0.4s;
+  overflow: hidden;
+  box-shadow: 0 5px 15px #193047;
+}
+
+#circle-left:hover {
+  background: #3498db;
+  box-shadow: 0px 2px 10px 5px #193047;
+  color: #000;
+}
+
+#circle-left:after {
+  content: "";
+  background: #193047;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+#circle-left:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
+}
+
+#circle-left:focus { outline:0; }
