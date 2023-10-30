@@ -2,7 +2,7 @@
 Tone.start();
 
 // Função animação do canvas
-function AnimateCanvas() {
+function AnimateCanvas(profile) {
   var c = document.getElementById("c");
   var ctx = c.getContext("2d");
   var cH;
@@ -51,6 +51,10 @@ function AnimateCanvas() {
     tomBTN.addEventListener("mousedown", handleEvent);
     digital_tomBTN.addEventListener("touchstart", handleEvent);
     digital_tomBTN.addEventListener("mousedown", handleEvent);
+
+
+    fx1BTN.addEventListener("touchstart", handleEvent);
+    fx1BTN.addEventListener("mousedown", handleEvent);
   }
 
   function handleEvent(e) {
@@ -353,7 +357,7 @@ function AnimateClick() {
     updateCoords(e);
     animateParticules(pointerX, pointerY);
   }
-  
+
   reverbBTN.addEventListener(tap, handleFXButtonClick, false);
   distortionBTN.addEventListener(tap, handleFXButtonClick, false);
   crusherBTN.addEventListener(tap, handleFXButtonClick, false);
@@ -387,7 +391,11 @@ var isTremoloActive = false;
 
 var reverb = new Tone.Reverb().toDestination();
 var distortion = new Tone.Distortion(0.8).toDestination();
-var crusher = new Tone.Phaser({frequency: 15, octaves: 5, baseFrequency: 1000}).toDestination();
+var crusher = new Tone.Phaser({
+  frequency: 15,
+  octaves: 5,
+  baseFrequency: 1000,
+}).toDestination();
 var tremolo = new Tone.PingPongDelay("4n", 0.2).toDestination();
 
 var gainNode = new Tone.Gain();
@@ -414,14 +422,43 @@ const digital_tomSampler = new Tone.Sampler({
   C4: "./samples/digital-tom.wav",
 }).toDestination();
 
+// Kick
+const crashSampler = new Tone.Sampler({
+  C4: "./samples/crash.mp3",
+}).toDestination();
+// snare
+const digital_cowbell_2Sampler = new Tone.Sampler({
+  C4: "./samples/digital-cowbell-2.wav",
+}).toDestination();
+// Hi Hat
+const digital_cowbellSampler = new Tone.Sampler({
+  C4: "./samples/digital-cowbell.wav",
+}).toDestination();
+// Tom Sampler
+const djembeSampler = new Tone.Sampler({
+  C4: "./samples/djembe.wav",
+}).toDestination();
+// clap
+const drum_sticksSampler = new Tone.Sampler({
+  C4: "./samples/drum-sticks.mp3",
+}).toDestination();
+// Sampler
+const short_bassSampler = new Tone.Sampler({
+  C4: "./samples/short-bass.wav",
+}).toDestination();
+// digital Sampler
+const steel_drumSampler = new Tone.Sampler({
+  C4: "./samples/steel-drum.wav",
+}).toDestination();
+
 var reverbBTN = document.getElementById("fx-left-btn1");
 var distortionBTN = document.getElementById("fx-left-btn2");
-
 var crusherBTN = document.getElementById("fx-right-btn1");
 var tremoloBTN = document.getElementById("fx-right-btn2");
 
 const circle_left = document.getElementById("circle-left");
-const circle_right = document.getElementById('circle-right');
+const circle_right = document.getElementById("circle-right");
+
 const kickBTN = document.getElementById("kick-btn");
 const snareBTN = document.getElementById("snare-btn");
 const hi_hatBTN = document.getElementById("hi_hat-btn");
@@ -429,32 +466,109 @@ const clapBTN = document.getElementById("clap-btn");
 const tomBTN = document.getElementById("tom-btn");
 const digital_tomBTN = document.getElementById("digital_tom-btn");
 
+const fx1BTN = document.getElementById("profile-1-btn");
+const fx2BTN = document.getElementById("profile-2-btn");
+
+let currentProfile = 1;
+
+let kickEventListener = null;
+let snareEventListener = null;
+let hi_hatEventListener = null;
+let clapEventListener = null;
+let tomEventListener = null;
+let digitaltomEventListener = null;
+
+function setProfile(profile) {
+  currentProfile = profile;
+
+  if (kickEventListener || snareEventListener || hi_hatEventListener || clapEventListener || tomEventListener || digitaltomEventListener) {
+    kickBTN.removeEventListener("click", kickEventListener);
+    snareBTN.removeEventListener("click", snareEventListener);
+    hi_hatBTN.removeEventListener("click", hi_hatEventListener);
+    clapBTN.removeEventListener("click", clapEventListener);
+    tomBTN.removeEventListener("click", tomEventListener);
+    digital_tomBTN.removeEventListener("click", digitaltomEventListener);
+  }
+
+  switch (profile) {
+    case 1:
+      console.log("perfil 1");
+      kickEventListener = function () {
+        kickSampler.triggerAttack("C4");
+      };
+      kickBTN.addEventListener("click", kickEventListener);
+
+      snareEventListener = function () {
+        snareSampler.triggerAttack("C4");
+      };
+      snareBTN.addEventListener("click", snareEventListener);
+
+      hi_hatEventListener = function () {
+        hi_hatSampler.triggerAttack("C4");
+      };
+      hi_hatBTN.addEventListener("click", hi_hatEventListener);
+
+      clapEventListener = function () {
+        clapSampler.triggerAttack("C4");
+      };
+      clapBTN.addEventListener("click", clapEventListener);
+
+      tomEventListener = function () {
+        tomSampler.triggerAttack("C4");
+      };
+      tomBTN.addEventListener("click", tomEventListener);
+
+      digitaltomEventListener = function () {
+        digital_tomSampler.triggerAttack("C4");
+      };
+      digital_tomBTN.addEventListener("click", digitaltomEventListener);
+
+      break;
+    case 2:
+      console.log("perfil 2");
+      kickEventListener = function () {
+        crashSampler.triggerAttack("D4");
+      };
+      kickBTN.addEventListener("click", kickEventListener);
+
+      snareEventListener = function () {
+        digital_cowbellSampler.triggerAttack("C4");
+      };
+      snareBTN.addEventListener("click", snareEventListener);
+
+      hi_hatEventListener = function () {
+        digital_cowbell_2Sampler.triggerAttack("C4");
+      };
+      hi_hatBTN.addEventListener("click", hi_hatEventListener);
+
+      clapEventListener = function () {
+        djembeSampler.triggerAttack("C4");
+      };
+      clapBTN.addEventListener("click", clapEventListener);
+
+      tomEventListener = function () {
+        steel_drumSampler.triggerAttack("C4");
+      };
+      tomBTN.addEventListener("click", tomEventListener);
+
+      digitaltomEventListener = function () {
+        short_bassSampler.triggerAttack("C4");
+      };
+      digital_tomBTN.addEventListener("click", digitaltomEventListener);
+
+      break;
+  }
+}
+
+fx1BTN.addEventListener("click", function () {
+  setProfile(1);
+});
+fx2BTN.addEventListener("click", function () {
+  setProfile(2);
+});
+
 AnimateClick();
 AnimateCanvas();
-
-kickBTN.addEventListener("click", function () {
-  kickSampler.triggerAttack("C4");
-});
-
-snareBTN.addEventListener("click", function () {
-  snareSampler.triggerAttack("C4");
-});
-
-hi_hatBTN.addEventListener("click", function () {
-  hi_hatSampler.triggerAttack("C4");
-});
-
-clapBTN.addEventListener("click", function () {
-  clapSampler.triggerAttack("C4");
-});
-
-tomBTN.addEventListener("click", function () {
-  tomSampler.triggerAttack("C4");
-});
-
-digital_tomBTN.addEventListener("click", function () {
-  digital_tomSampler.triggerAttack("C4");
-});
 
 const fxSlider = interact(".slider-left");
 
@@ -684,7 +798,9 @@ function calculateFrequencyReverse(mouseXPosition, circle_right) {
   var relativeX = mouseXPosition - circleLeft;
 
   if (relativeX >= 0 && relativeX <= circleWidth) {
-    return maxFrequency - (relativeX / circleWidth) * maxFrequency + minFrequency;
+    return (
+      maxFrequency - (relativeX / circleWidth) * maxFrequency + minFrequency
+    );
   } else {
     return -1;
   }
@@ -706,4 +822,3 @@ function calculateGainReverse(mouseYPosition, circle_right) {
     return minGain;
   }
 }
-
