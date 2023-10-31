@@ -11,25 +11,38 @@
     <link rel="icon" href="./img/icon.png" type="image/x-icon" />
   </head>
   <body>
+    <canvas id="c" class="c"></canvas>
+
     <!-- Sliders -->
     <div class="sliders">
       <div class="slider-left"></div>
       <div class="slider-right"></div>
     </div>
 
+
+
     <button id="profile-1-btn" class="button-29" role="button">I</button>
     <button id="profile-2-btn" class="button-29" role="button">I</button>
-    <button id="profile-3-btn" class="button-29" role="button">I</button>
-    <button id="profile-4-btn" class="button-29" role="button">I</button>
-
 
     <!-- Instruments -->
-    <button id="kick-btn" class="circular-btn">Kick</button>
-    <button id="snare-btn" class="circular-btn">Snare</button>
-    <button id="tom-btn" class="circular-btn">Tom</button>
-    <button id="digital_tom-btn" class="circular-btn">Digital Tom</button>
-    <button id="clap-btn" class="circular-btn">Clap</button>
-    <button id="hi_hat-btn" class="circular-btn">Hi-Hat</button>
+    <button id="kick-btn" class="circular-btn">
+      <span id="kick-icon" class="button-icon"></span>
+    </button>
+    <button id="snare-btn" class="circular-btn">
+      <span id="snare-icon" class="button-icon"></span>
+    </button>
+    <button id="tom-btn" class="circular-btn">
+      <span id="tom-icon" class="button-icon"></span>
+    </button>
+    <button id="digital_tom-btn" class="circular-btn">
+      <span id="digital_tom-icon" class="button-icon"></span>
+    </button>
+    <button id="clap-btn" class="circular-btn">
+      <span id="clap-icon" class="button-icon"></span>
+    </button>
+    <button id="hi_hat-btn" class="circular-btn">
+      <span id="hi_hat-icon" class="button-icon"></span>
+    </button>
 
     <!-- Fx -->
     <button id="fx-left-btn1" class="fx-btn">Fx 1</button>
@@ -38,11 +51,8 @@
     <button id="fx-right-btn2" class="fx-btn">Fx 2</button>
 
     <!-- Circles -->
-    <button  id="circle-left"></button>
-    <button  id="circle-right"></button>
-
-    <canvas id="c" class="c"></canvas>
-
+    <button id="circle-left"></button>
+    <button id="circle-right"></button>
     <!-- Scripts -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"
