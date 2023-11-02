@@ -1,7 +1,7 @@
 // Inicializa o contexto do Tone.js
 Tone.start();
 
-// Função animação do canvas
+// Função animação dos canvass
 function AnimateCanvas(profile) {
   var c = document.getElementById("c");
   var ctx = c.getContext("2d");
@@ -12,7 +12,8 @@ function AnimateCanvas(profile) {
   var circles = [];
 
   var colorPicker = (function () {
-    var colors = ["#FF6138", "#FFBE53", "#2980B9", "#282741"];
+                  //laranja, amarelo,  azul claro, azul lig. escuro
+    var colors = ["#FF6138", "#FFBE53", "#2980B9", "#282741"]; //282741
     var index = 0;
     function next() {
       index = index++ < colors.length - 1 ? index : 0;
@@ -51,7 +52,6 @@ function AnimateCanvas(profile) {
     tomBTN.addEventListener("mousedown", handleEvent);
     digital_tomBTN.addEventListener("touchstart", handleEvent);
     digital_tomBTN.addEventListener("mousedown", handleEvent);
-
 
     fx1BTN.addEventListener("touchstart", handleEvent);
     fx1BTN.addEventListener("mousedown", handleEvent);
@@ -240,7 +240,7 @@ function AnimateClick() {
     "ontouchstart" in window || navigator.msMaxTouchPoints
       ? "touchstart"
       : "mousedown";
-  var colors = ["#FF1461", "#18FF92", "#5A87FF", "#FBF38C"];
+  var colors = ["#FFD100", "#0074FF", "#1E305E", "#FF5D25", "#FFFFFF"];
 
   function setCanvasSize() {
     canvasEl.width = window.innerWidth * 2;
@@ -380,6 +380,304 @@ function AnimateClick() {
   window.addEventListener("resize", setCanvasSize, false);
 }
 
+function AnimateDragLeft() {
+  var canvasEl = document.querySelector(".transparent-c-left");
+  var ctx = canvasEl.getContext("2d");
+  var numberOfParticules = 30;
+  var pointerX = 0;
+  var pointerY = 0;
+  var tap =
+    "ontouchstart" in window || navigator.msMaxTouchPoints
+      ? "touchstart"
+      : "mousemove";
+  var colors = ["#FFD100", "#0074FF", "#1E305E", "#FF5D25", "#FFFFFF"];
+
+  function setCanvasSize() {
+    canvasEl.width = window.innerWidth * 2;
+    canvasEl.height = window.innerHeight * 2;
+    canvasEl.style.width = window.innerWidth + "px";
+    canvasEl.style.height = window.innerHeight + "px";
+    canvasEl.getContext("2d").scale(2, 2);
+  }
+
+  function updateCoords(e) {
+    pointerX = e.clientX || e.touches[0].clientX;
+    pointerY = e.clientY || e.touches[0].clientY;
+  }
+
+  function setParticuleDirection(p) {
+    var angle = (anime.random(0, 360) * Math.PI) / 180;
+    var value = anime.random(50, 180);
+    var radius = [-1, 1][anime.random(0, 1)] * value;
+    return {
+      x: p.x + radius * Math.cos(angle),
+      y: p.y + radius * Math.sin(angle),
+    };
+  }
+
+  function createParticule(x, y) {
+    var p = {};
+    p.x = x;
+    p.y = y;
+    p.color = colors[anime.random(0, colors.length - 1)];
+    p.radius = anime.random(16, 32);
+    p.endPos = setParticuleDirection(p);
+    p.draw = function () {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+    };
+    return p;
+  }
+
+  function createCircle(x, y) {
+    var p = {};
+    p.x = x;
+    p.y = y;
+    p.color = "#FFF";
+    p.radius = 0.1;
+    p.alpha = 0.5;
+    p.lineWidth = 6;
+    p.draw = function () {
+      ctx.globalAlpha = p.alpha;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+      ctx.lineWidth = p.lineWidth;
+      ctx.strokeStyle = p.color;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    };
+    return p;
+  }
+
+  function renderParticule(anim) {
+    for (var i = 0; i < anim.animatables.length; i++) {
+      anim.animatables[i].target.draw();
+    }
+  }
+
+  function animateParticules(x, y) {
+    var circle = createCircle(x, y);
+    var particules = [];
+    for (var i = 0; i < numberOfParticules; i++) {
+      particules.push(createParticule(x, y));
+    }
+    anime
+      .timeline()
+      .add({
+        targets: particules,
+        x: function (p) {
+          return p.endPos.x;
+        },
+        y: function (p) {
+          return p.endPos.y;
+        },
+        radius: 0.1,
+        duration: anime.random(1200, 1800),
+        easing: "easeOutExpo",
+        update: renderParticule,
+      })
+      .add({
+        targets: circle,
+        radius: anime.random(80, 160),
+        lineWidth: 0,
+        alpha: {
+          value: 0,
+          easing: "linear",
+          duration: anime.random(600, 800),
+        },
+        duration: anime.random(1200, 1800),
+        easing: "easeOutExpo",
+        update: renderParticule,
+        offset: 0,
+      });
+  }
+
+  var render = anime({
+    duration: Infinity,
+    update: function () {
+      ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+    },
+  });
+
+  function handleFXButtonClick(e) {
+    window.human = true;
+    render.play();
+    updateCoords(e);
+    animateParticules(pointerX, pointerY);
+  }
+
+  circle_left.addEventListener(tap, handleFXButtonClick, false);
+  //circle_right.addEventListener(tap, handleFXButtonClick, false);
+
+
+  var centerX = window.innerWidth / 2;
+  var centerY = window.innerHeight / 2;
+
+  function autoClick() {
+    if (window.human) return;
+    animateParticules(
+      anime.random(centerX - 50, centerX + 50),
+      anime.random(centerY - 50, centerY + 50)
+    );
+    anime({ duration: 200 }).finished.then(autoClick);
+  }
+
+  autoClick();
+  setCanvasSize();
+  window.addEventListener("resize", setCanvasSize, false);
+}
+
+function AnimateDragRight() {
+  var canvasEl = document.querySelector(".transparent-c-right");
+  var ctx = canvasEl.getContext("2d");
+  var numberOfParticules = 30;
+  var pointerX = 0;
+  var pointerY = 0;
+  var tap =
+    "ontouchstart" in window || navigator.msMaxTouchPoints
+      ? "touchstart"
+      : "mousemove";
+  var colors = ["#FFD100", "#0074FF", "#1E305E", "#FF5D25", "#FFFFFF"];
+
+  function setCanvasSize() {
+    canvasEl.width = window.innerWidth * 2;
+    canvasEl.height = window.innerHeight * 2;
+    canvasEl.style.width = window.innerWidth + "px";
+    canvasEl.style.height = window.innerHeight + "px";
+    canvasEl.getContext("2d").scale(2, 2);
+  }
+
+  function updateCoords(e) {
+    pointerX = e.clientX || e.touches[0].clientX;
+    pointerY = e.clientY || e.touches[0].clientY;
+  }
+
+  function setParticuleDirection(p) {
+    var angle = (anime.random(0, 360) * Math.PI) / 180;
+    var value = anime.random(50, 180);
+    var radius = [-1, 1][anime.random(0, 1)] * value;
+    return {
+      x: p.x + radius * Math.cos(angle),
+      y: p.y + radius * Math.sin(angle),
+    };
+  }
+
+  function createParticule(x, y) {
+    var p = {};
+    p.x = x;
+    p.y = y;
+    p.color = colors[anime.random(0, colors.length - 1)];
+    p.radius = anime.random(16, 32);
+    p.endPos = setParticuleDirection(p);
+    p.draw = function () {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+    };
+    return p;
+  }
+
+  function createCircle(x, y) {
+    var p = {};
+    p.x = x;
+    p.y = y;
+    p.color = "#FFF";
+    p.radius = 0.1;
+    p.alpha = 0.5;
+    p.lineWidth = 6;
+    p.draw = function () {
+      ctx.globalAlpha = p.alpha;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+      ctx.lineWidth = p.lineWidth;
+      ctx.strokeStyle = p.color;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    };
+    return p;
+  }
+
+  function renderParticule(anim) {
+    for (var i = 0; i < anim.animatables.length; i++) {
+      anim.animatables[i].target.draw();
+    }
+  }
+
+  function animateParticules(x, y) {
+    var circle = createCircle(x, y);
+    var particules = [];
+    for (var i = 0; i < numberOfParticules; i++) {
+      particules.push(createParticule(x, y));
+    }
+    anime
+      .timeline()
+      .add({
+        targets: particules,
+        x: function (p) {
+          return p.endPos.x;
+        },
+        y: function (p) {
+          return p.endPos.y;
+        },
+        radius: 0.1,
+        duration: anime.random(1200, 1800),
+        easing: "easeOutExpo",
+        update: renderParticule,
+      })
+      .add({
+        targets: circle,
+        radius: anime.random(80, 160),
+        lineWidth: 0,
+        alpha: {
+          value: 0,
+          easing: "linear",
+          duration: anime.random(600, 800),
+        },
+        duration: anime.random(1200, 1800),
+        easing: "easeOutExpo",
+        update: renderParticule,
+        offset: 0,
+      });
+  }
+
+  var render = anime({
+    duration: Infinity,
+    update: function () {
+      ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+    },
+  });
+
+  function handleFXButtonClick(e) {
+    window.human = true;
+    render.play();
+    updateCoords(e);
+    animateParticules(pointerX, pointerY);
+  }
+
+  // circle_left.addEventListener(tap, handleFXButtonClick, false);
+  circle_right.addEventListener(tap, handleFXButtonClick, false);
+
+
+  var centerX = window.innerWidth / 2;
+  var centerY = window.innerHeight / 2;
+
+  function autoClick() {
+    if (window.human) return;
+    animateParticules(
+      anime.random(centerX - 50, centerX + 50),
+      anime.random(centerY - 50, centerY + 50)
+    );
+    anime({ duration: 200 }).finished.then(autoClick);
+  }
+
+  autoClick();
+  setCanvasSize();
+  window.addEventListener("resize", setCanvasSize, false);
+}
+
 var mousedown = false;
 var oscillator = new Tone.Oscillator().toDestination();
 var fat = new Tone.FatOscillator("A3", "sine", 40).toDestination();
@@ -481,7 +779,14 @@ let digitaltomEventListener = null;
 function setProfile(profile) {
   currentProfile = profile;
 
-  if (kickEventListener || snareEventListener || hi_hatEventListener || clapEventListener || tomEventListener || digitaltomEventListener) {
+  if (
+    kickEventListener ||
+    snareEventListener ||
+    hi_hatEventListener ||
+    clapEventListener ||
+    tomEventListener ||
+    digitaltomEventListener
+  ) {
     kickBTN.removeEventListener("click", kickEventListener);
     snareBTN.removeEventListener("click", snareEventListener);
     hi_hatBTN.removeEventListener("click", hi_hatEventListener);
@@ -567,6 +872,8 @@ fx2BTN.addEventListener("click", function () {
   setProfile(2);
 });
 
+AnimateDragLeft();
+AnimateDragRight();
 AnimateClick();
 AnimateCanvas();
 
