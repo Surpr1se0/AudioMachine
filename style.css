@@ -7,6 +7,28 @@ body {
   overflow:hidden;
 }
 
+.c {
+  display: block;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.transparent-c-left {
+  position: absolute;
+  top: 5%;
+  z-index: 2; 
+  /* background-color: #00FF87;  */
+  pointer-events: none; /* Desativa a interação do mouse com o canvas */
+}
+
+.transparent-c-right {
+  position: absolute;
+  
+  z-index: 2; 
+  /* background-color: #00FF87; */
+  pointer-events: none; /* Desativa a interação do mouse com o canvas */
+}
 
 
 .circular-btn {
@@ -17,10 +39,25 @@ body {
   border-radius: 50%; /* Defina a forma do círculo */
 }
 
+
+.button-icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  top: 50%; /* Centralize verticalmente */
+  left: 50%; /* Centralize horizontalmente */
+  transform: translate(-50%, -50%); /* Centralize em ambas as direções */
+}
+
+
 #clap-btn {
   position: absolute;
   top: 40px;
   right: 470px;
+  background: linear-gradient(20deg, #3A86FF 0%, #8338EC 100%, #8338EC 100%);
+  border-radius: 9999px;
+  border: 5px black solid;
 }
 
 #clap-icon{
@@ -33,6 +70,9 @@ body {
   position: absolute;
   top: 195px;
   right: 510px;
+  background: linear-gradient(180deg, #3A86FF 0%, #00FF87 100%);
+  border-radius: 9999px;
+  border: 5px black solid;
 }
 
 #digital_tom-icon{
@@ -45,6 +85,9 @@ body {
   position: absolute;
   top: 350px;
   right: 470px;
+  background: linear-gradient(3deg, #FFBE0B 0%, #00FF87 100%);
+  border-radius: 9999px;
+  border: 5px black solid;
 }
 
 #snare-icon{
@@ -57,6 +100,9 @@ body {
   position: absolute;
   bottom: 350px;
   left: 470px;
+  background: linear-gradient(20deg, #3A86FF 0%, #8338EC 100%, #8338EC 100%);
+  border-radius: 9999px;
+  border: 5px black solid;
 }
 
 #kick-icon{
@@ -69,6 +115,9 @@ body {
   position: absolute;
   bottom: 210px;
   left: 520px;
+  background: linear-gradient(180deg, #3A86FF 0%, #00FF87 100%);
+  border-radius: 9999px;
+  border: 5px black solid;
 }
 
 #hi_hat-icon{
@@ -81,31 +130,15 @@ body {
   position: absolute;
   bottom: 60px;
   left: 490px;
+  background: linear-gradient(3deg, #FFBE0B 0%, #00FF87 100%);
+  border-radius: 9999px;
+  border: 5px black solid;
 }
 
 #tom-icon{
   background-image: url('./img/tom.png');
   width: 60px; 
   height: 90px; 
-}
-
-.c {
-  display: block;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-
-.fx-btn {
-  width: 160px;
-  height: 80px;
-  background-color: orange; /* Cor de fundo desejada */
-  border: none; /* Remova a borda */
-  border-radius: 50%; /* Defina a forma do círculo */
-  color: #fff; /* Cor do texto dentro do botão */
-  font-size: 20px; /* Tamanho da fonte */
-  cursor: pointer; /* Mude o cursor ao passar o mouse */
 }
 
 .sliders {
@@ -217,20 +250,22 @@ body {
   transform: translateY(2px);
 }
 
-.button-icon {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  position: absolute;
-  top: 50%; /* Centralize verticalmente */
-  left: 50%; /* Centralize horizontalmente */
-  transform: translate(-50%, -50%); /* Centralize em ambas as direções */
+.fx-btn {
+  width: 150px;
+  aspect-ratio: 1;
+  clip-path: polygon(100.00% 50.00%,78.98% 57.76%,93.30% 75.00%,71.21% 71.21%,75.00% 93.30%,57.76% 78.98%,50.00% 100.00%,42.24% 78.98%,25.00% 93.30%,28.79% 71.21%,6.70% 75.00%,21.02% 57.76%,0.00% 50.00%,21.02% 42.24%,6.70% 25.00%,28.79% 28.79%,25.00% 6.70%,42.24% 21.02%,50.00% 0.00%,57.76% 21.02%,75.00% 6.70%,71.21% 28.79%,93.30% 25.00%,78.98% 42.24%);
+  cursor: pointer;
+  background-color: red; /* Cor de fundo desejada */
+  border: none; /* Remova a borda */
+  color: #fff; /* Cor do texto dentro do botão */
+  font-size: 20px; /* Tamanho da fonte */
+  cursor: pointer; /* Mude o cursor ao passar o mouse */
 }
 
 #fx-left-btn1 {
   position: absolute;
   bottom: 490px;
-  left: 50px;
+  left: 60px;
 }
 
 #fx-left-btn2 {
@@ -252,20 +287,22 @@ body {
 }
 
 #circle-left {
-  position: fixed;
-  width: 450px; /* Largura máxima */
-  height: 450px; /* Altura máxima */
-  max-width: 450px; /* Largura máxima */
-  max-height: 450px; /* Altura máxima */
-  background-color: #3498db;
-  border: none; /* Remova a borda */
+  position: fixed; /* Defina a posição como 'absolute' ou 'fixed' */
+  width: 450px;
+  height: 450px;
+  max-width: 450px;
+  max-height: 450px;
+  background: radial-gradient(58.64% 58.64% at 71.86% 19.82%, #FFBE0B 0%, #FB5607 100%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 5px black solid;
   border-radius: 50%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2%; /* Preenchimento relativo à janela */
-  left: 2%; /* Margem à esquerda relativa à janela */
-  bottom: 2%; /* Margem inferior relativa à janela */
+  padding: 2%;
+  left: 2%;
+  bottom: 2%;
+  z-index: 1; /* Defina um valor de z-index menor que o do .transparent-c */
 }
 
 #circle-right {
@@ -274,8 +311,9 @@ body {
   height: 450px; /* Altura máxima */
   max-width: 450px; /* Largura máxima */
   max-height: 450px; /* Altura máxima */
-  background-color: #3498db;
-  border: none; /* Remova a borda */
+  background: radial-gradient(58.64% 58.64% at 71.86% 19.82%, #FFBE0B 0%, #FB5607 100%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: 5px black solid;
   border-radius: 50%;
   display: flex;
   justify-content: space-between;
