@@ -753,7 +753,8 @@ var reverbBTN = document.getElementById("fx-left-btn1");
 var distortionBTN = document.getElementById("fx-left-btn2");
 var crusherBTN = document.getElementById("fx-right-btn1");
 var tremoloBTN = document.getElementById("fx-right-btn2");
-
+const fxButtons = [reverbBTN, distortionBTN, crusherBTN, tremoloBTN];
+let activeEffect  = null;
 
 const circle_left = document.getElementById("circle-left");
 const circle_right = document.getElementById("circle-right");
@@ -767,34 +768,36 @@ const digital_tomBTN = document.getElementById("digital_tom-btn");
 
 const profile1BTN = document.getElementById("profile-1-btn");
 const profile2BTN = document.getElementById("profile-2-btn");
-
 let currentProfile = 1;
+let kickEventListener, snareEventListener, hi_hatEventListener, clapEventListener, tomEventListener, digitaltomEventListener = null;
 
-let kickEventListener = null;
-let snareEventListener = null;
-let hi_hatEventListener = null;
-let clapEventListener = null;
-let tomEventListener = null;
-let digitaltomEventListener = null;
+const profileButtons = document.querySelectorAll(".button-29");
 
 function setProfile(profile) {
-  currentProfile = profile;
+  if (currentProfile === profile) {
+    return; // Nada a fazer se o perfil já estiver ativo
+  }
 
-  if (
-    kickEventListener ||
-    snareEventListener ||
-    hi_hatEventListener ||
-    clapEventListener ||
-    tomEventListener ||
-    digitaltomEventListener
-  ) {
+  if (kickEventListener) {
     kickBTN.removeEventListener("click", kickEventListener);
+  }
+  if (snareEventListener) {
     snareBTN.removeEventListener("click", snareEventListener);
+  }
+  if (hi_hatEventListener) {
     hi_hatBTN.removeEventListener("click", hi_hatEventListener);
+  }
+  if (clapEventListener) {
     clapBTN.removeEventListener("click", clapEventListener);
+  }
+  if (tomEventListener) {
     tomBTN.removeEventListener("click", tomEventListener);
+  }
+  if (digitaltomEventListener) {
     digital_tomBTN.removeEventListener("click", digitaltomEventListener);
   }
+
+  currentProfile = profile;
 
   switch (profile) {
     case 1:
@@ -828,7 +831,6 @@ function setProfile(profile) {
         digital_tomSampler.triggerAttack("C4");
       };
       digital_tomBTN.addEventListener("click", digitaltomEventListener);
-
       break;
     case 2:
       console.log("perfil 2");
@@ -867,9 +869,14 @@ function setProfile(profile) {
 }
 
 profile1BTN.addEventListener("click", function () {
+  profile1BTN.classList.add("pressed");
+  profile2BTN.classList.remove("pressed");
   setProfile(1);
 });
+
 profile2BTN.addEventListener("click", function () {
+  profile2BTN.classList.add("pressed");
+  profile1BTN.classList.remove("pressed");
   setProfile(2);
 });
 
@@ -879,7 +886,6 @@ AnimateClick();
 AnimateCanvas();
 
 const fxSlider = interact(".slider-left");
-
 fxSlider.draggable({
   origin: "self",
   inertia: true,
@@ -905,7 +911,6 @@ fxSlider.draggable({
 });
 
 const fxSlider1 = interact(".slider-right");
-
 fxSlider1.draggable({
   origin: "self",
   inertia: true,
@@ -930,8 +935,6 @@ fxSlider1.draggable({
   },
 });
 
-const fxButtons = [reverbBTN, distortionBTN, crusherBTN, tremoloBTN];
-let activeEffect  = null;
 
 // Função para ativar/desativar um efeito
 function toggleEffect(effect, button) {
