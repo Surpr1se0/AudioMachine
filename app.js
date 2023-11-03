@@ -53,8 +53,8 @@ function AnimateCanvas(profile) {
     digital_tomBTN.addEventListener("touchstart", handleEvent);
     digital_tomBTN.addEventListener("mousedown", handleEvent);
 
-    fx1BTN.addEventListener("touchstart", handleEvent);
-    fx1BTN.addEventListener("mousedown", handleEvent);
+    profile1BTN.addEventListener("touchstart", handleEvent);
+    profile1BTN.addEventListener("mousedown", handleEvent);
   }
 
   function handleEvent(e) {
@@ -754,6 +754,7 @@ var distortionBTN = document.getElementById("fx-left-btn2");
 var crusherBTN = document.getElementById("fx-right-btn1");
 var tremoloBTN = document.getElementById("fx-right-btn2");
 
+
 const circle_left = document.getElementById("circle-left");
 const circle_right = document.getElementById("circle-right");
 
@@ -764,8 +765,8 @@ const clapBTN = document.getElementById("clap-btn");
 const tomBTN = document.getElementById("tom-btn");
 const digital_tomBTN = document.getElementById("digital_tom-btn");
 
-const fx1BTN = document.getElementById("profile-1-btn");
-const fx2BTN = document.getElementById("profile-2-btn");
+const profile1BTN = document.getElementById("profile-1-btn");
+const profile2BTN = document.getElementById("profile-2-btn");
 
 let currentProfile = 1;
 
@@ -865,10 +866,10 @@ function setProfile(profile) {
   }
 }
 
-fx1BTN.addEventListener("click", function () {
+profile1BTN.addEventListener("click", function () {
   setProfile(1);
 });
-fx2BTN.addEventListener("click", function () {
+profile2BTN.addEventListener("click", function () {
   setProfile(2);
 });
 
@@ -929,72 +930,66 @@ fxSlider1.draggable({
   },
 });
 
-reverbBTN.addEventListener("click", function (e) {
-  isReverbActive = !isReverbActive;
-  console.log(isReverbActive);
+const fxButtons = [reverbBTN, distortionBTN, crusherBTN, tremoloBTN];
+let activeEffect  = null;
 
-  if (isReverbActive) {
-    oscillator.disconnect();
-    oscillator.connect(gainNode);
-    gainNode.connect(reverb);
-    reverb.toDestination();
-  } else {
-    reverb.disconnect();
+// Função para ativar/desativar um efeito
+function toggleEffect(effect, button) {
+  if (activeEffect === effect) {
+    // Desativa o efeito
+    effect.disconnect();
     oscillator.disconnect();
     oscillator.connect(gainNode);
     gainNode.toDestination();
-  }
-});
-
-distortionBTN.addEventListener("click", function (e) {
-  isDistortionActive = !isDistortionActive;
-  console.log(isDistortionActive);
-
-  if (isDistortionActive) {
+    activeEffect = null;
+    button.classList.remove("pressed");
+  } else {
+    // Ativa o efeito
     oscillator.disconnect();
     oscillator.connect(gainNode);
-    gainNode.connect(distortion);
-    distortion.toDestination();
-  } else {
-    distortion.disconnect();
-    oscillator.disconnect();
-    oscillator.connect(gainNode);
-    gainNode.toDestination();
+    gainNode.connect(effect);
+    effect.toDestination();
+    activeEffect = effect;
+    button.classList.add("pressed");
   }
-});
+}
 
-crusherBTN.addEventListener("click", function (e) {
-  isCrusherActive = !isCrusherActive;
-  console.log(isCrusherActive);
-
-  if (isCrusherActive) {
-    fat.disconnect();
-    fat.connect(gainNodeRight);
-    gainNodeRight.connect(crusher);
-    crusher.toDestination();
-  } else {
-    crusher.disconnect();
+// Função para ativar/desativar um efeito associado ao "fat"
+function toggleFatEffect(effect, button) {
+  if (activeEffect === effect) {
+    // Desativa o efeito associado ao "fat"
+    effect.disconnect();
     fat.disconnect();
     fat.connect(gainNodeRight);
     gainNodeRight.toDestination();
+    activeEffect = null;
+    button.classList.remove("pressed");
+  } else {
+    // Ativa o efeito associado ao "fat"
+    fat.disconnect();
+    fat.connect(gainNodeRight);
+    gainNodeRight.connect(effect);
+    effect.toDestination();
+    activeEffect = effect;
+    button.classList.add("pressed");
   }
+}
+
+// Adiciona eventos de clique aos botões de efeito
+reverbBTN.addEventListener("click", function () {
+  toggleEffect(reverb, reverbBTN);
 });
 
-tremoloBTN.addEventListener("click", function (e) {
-  isTremoloActive = !isTremoloActive;
-  console.log(isTremoloActive);
+distortionBTN.addEventListener("click", function () {
+  toggleEffect(distortion, distortionBTN);
+});
 
-  if (isTremoloActive) {
-    fat.disconnect();
-    fat.connect(gainNodeRight);
-    gainNodeRight.connect(tremolo);
-    tremolo.toDestination();
-  } else {
-    tremolo.disconnect();
-    fat.disconnect();
-    fat.connect(gainNodeRight);
-    gainNodeRight.toDestination();
-  }
+crusherBTN.addEventListener("click", function () {
+  toggleFatEffect(crusher, crusherBTN);
+});
+
+tremoloBTN.addEventListener("click", function () {
+  toggleFatEffect(tremolo, tremoloBTN);
 });
 
 //touchstart

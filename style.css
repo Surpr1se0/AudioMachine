@@ -252,12 +252,17 @@ body {
 
 .fx-btn {
   width: 150px;
+  height: 120px;
   aspect-ratio: 1;
   clip-path: polygon(100.00% 50.00%,78.98% 57.76%,93.30% 75.00%,71.21% 71.21%,75.00% 93.30%,57.76% 78.98%,50.00% 100.00%,42.24% 78.98%,25.00% 93.30%,28.79% 71.21%,6.70% 75.00%,21.02% 57.76%,0.00% 50.00%,21.02% 42.24%,6.70% 25.00%,28.79% 28.79%,25.00% 6.70%,42.24% 21.02%,50.00% 0.00%,57.76% 21.02%,75.00% 6.70%,71.21% 28.79%,93.30% 25.00%,78.98% 42.24%);
   cursor: pointer;
-  background: linear-gradient(3deg, #FFBE0B 0%, #00FF87 100%);
+  background: linear-gradient(3deg, #D68800 0%, #00B961 100%);
   color: #fff; /* Cor do texto dentro do botão */
   cursor: pointer; /* Mude o cursor ao passar o mouse */
+}
+
+.fx-btn.pressed{
+  background: linear-gradient(3deg, #FFBE0B 0%, #00FF87 100%);
 }
 
 .fx-btn-icon{
