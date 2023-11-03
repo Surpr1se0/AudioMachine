@@ -141,8 +141,8 @@ body {
   height: 90px; 
 }
 
-.sliders {
-  width: 30%;
+.sliders-bottom {
+  width: 20%;
   z-index: 2;
 }
 /* the slider bar */
@@ -175,9 +175,17 @@ body {
   background-color: inherit;
 }
 
+.sliders-top {
+  width: 20%;
+  z-index: 2;
+  position: fixed; /* Altere a posição para 'fixed' */
+  top: 0; /* Posicione no topo da página */
+  right: 0; /* Estenda até o canto superior direito */
+}
+
 .slider-right {
-  bottom: 650px;
-  left: 50px;
+  top: 650px;
+  right: 50px;
   position: relative;
   width: 100%;
   height: 1em;
