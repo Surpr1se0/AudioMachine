@@ -1,8 +1,6 @@
-// Inicializa o contexto do Tone.js
 Tone.start();
 
-// Função animação dos canvass
-function AnimateCanvas(profile) {
+function AnimateCanvas() {
   var c = document.getElementById("c");
   var ctx = c.getContext("2d");
   var cH;
@@ -12,7 +10,7 @@ function AnimateCanvas(profile) {
   var circles = [];
 
   var colorPicker = (function () {
-                  //laranja, amarelo,  azul claro, azul lig. escuro
+    //laranja, amarelo,  azul claro, azul lig. escuro
     var colors = ["#FF6138", "#FFBE53", "#2980B9", "#282741"]; //282741
     var index = 0;
     function next() {
@@ -55,6 +53,8 @@ function AnimateCanvas(profile) {
 
     profile1BTN.addEventListener("touchstart", handleEvent);
     profile1BTN.addEventListener("mousedown", handleEvent);
+    profile2BTN.addEventListener("touchstart", handleEvent);
+    profile2BTN.addEventListener("mousedown", handleEvent);
   }
 
   function handleEvent(e) {
@@ -236,6 +236,7 @@ function AnimateClick() {
   var numberOfParticules = 30;
   var pointerX = 0;
   var pointerY = 0;
+  // Cuidado aqui - event listeners
   var tap =
     "ontouchstart" in window || navigator.msMaxTouchPoints
       ? "touchstart"
@@ -754,7 +755,7 @@ var distortionBTN = document.getElementById("fx-left-btn2");
 var crusherBTN = document.getElementById("fx-right-btn1");
 var tremoloBTN = document.getElementById("fx-right-btn2");
 const fxButtons = [reverbBTN, distortionBTN, crusherBTN, tremoloBTN];
-let activeEffect  = null;
+let activeEffect = null;
 
 const circle_left = document.getElementById("circle-left");
 const circle_right = document.getElementById("circle-right");
@@ -768,16 +769,111 @@ const digital_tomBTN = document.getElementById("digital_tom-btn");
 
 const profile1BTN = document.getElementById("profile-1-btn");
 const profile2BTN = document.getElementById("profile-2-btn");
-let currentProfile = 1;
+let currentProfile = null;
 let kickEventListener, snareEventListener, hi_hatEventListener, clapEventListener, tomEventListener, digitaltomEventListener = null;
 
 const profileButtons = document.querySelectorAll(".button-29");
 
+// Tudo o que é touchstart, antes seria click
 function setProfile(profile) {
   if (currentProfile === profile) {
     return; // Nada a fazer se o perfil já estiver ativo
   }
 
+  removeEventListeners();
+
+  currentProfile = profile;
+
+  if (profile === 1) {
+    changeButtonColors(
+      'kick-btn',
+      'hi_hat-btn',
+      'tom-btn',
+      'linear-gradient(20deg, #3A86FF 0%, #8338EC 100%, #8338EC 100%)'
+    );
+
+    changeButtonColors(
+      'clap-btn',
+      'digital_tom-btn',
+      'snare-btn',
+      'linear-gradient(180deg, #3A86FF 0%, #00FF87 100%)'
+    );
+
+    console.log("perfil 1");
+    setEventListeners(
+      kickSampler.triggerAttack.bind(kickSampler, "C4"),
+      snareSampler.triggerAttack.bind(snareSampler, "C4"),
+      hi_hatSampler.triggerAttack.bind(hi_hatSampler, "C4"),
+      clapSampler.triggerAttack.bind(clapSampler, "C4"),
+      tomSampler.triggerAttack.bind(tomSampler, "C4"),
+      digital_tomSampler.triggerAttack.bind(digital_tomSampler, "C4")
+    );
+  } else if (profile === 2) {
+    changeButtonColors(
+      'kick-btn',
+      'hi_hat-btn',
+      'tom-btn',
+      'lightblue'
+    );
+
+    changeButtonColors(
+      'clap-btn',
+      'digital_tom-btn',
+      'snare-btn',
+      'lightblue'
+    );
+
+    console.log("perfil 2");
+    setEventListeners(
+      crashSampler.triggerAttack.bind(crashSampler, "D4"),
+      digital_cowbellSampler.triggerAttack.bind(digital_cowbellSampler, "C4"),
+      digital_cowbell_2Sampler.triggerAttack.bind(digital_cowbell_2Sampler, "C4"),
+      djembeSampler.triggerAttack.bind(djembeSampler, "C4"),
+      steel_drumSampler.triggerAttack.bind(steel_drumSampler, "C4"),
+      short_bassSampler.triggerAttack.bind(short_bassSampler, "C4")
+    );
+  }
+}
+
+function changeButtonColors(btn1, btn2, btn3, color) {
+  document.getElementById(btn1).style.background = color;
+  document.getElementById(btn2).style.background = color;
+  document.getElementById(btn3).style.background = color;
+}
+
+function setEventListeners(kickCallback, snareCallback, hiHatCallback, clapCallback, tomCallback, digitalTomCallback) {
+  kickEventListener = function () {
+    kickCallback();
+  };
+  kickBTN.addEventListener("touchstart", kickEventListener);
+
+  snareEventListener = function () {
+    snareCallback();
+  };
+  snareBTN.addEventListener("touchstart", snareEventListener);
+
+  hi_hatEventListener = function () {
+    hiHatCallback();
+  };
+  hi_hatBTN.addEventListener("touchstart", hi_hatEventListener);
+
+  clapEventListener = function () {
+    clapCallback();
+  };
+  clapBTN.addEventListener("touchstart", clapEventListener);
+
+  tomEventListener = function () {
+    tomCallback();
+  };
+  tomBTN.addEventListener("touchstart", tomEventListener);
+
+  digitaltomEventListener = function () {
+    digitalTomCallback();
+  };
+  digital_tomBTN.addEventListener("touchstart", digitaltomEventListener);
+}
+
+function removeEventListeners() {
   if (kickEventListener) {
     kickBTN.removeEventListener("touchstart", kickEventListener);
   }
@@ -795,76 +891,6 @@ function setProfile(profile) {
   }
   if (digitaltomEventListener) {
     digital_tomBTN.removeEventListener("touchstart", digitaltomEventListener);
-  }
-
-  currentProfile = profile;
-
-  switch (profile) {
-    case 1:
-      console.log("perfil 1");
-      kickEventListener = function () {
-        kickSampler.triggerAttack("C4");
-      };
-      kickBTN.addEventListener("touchstart", kickEventListener);
-
-      snareEventListener = function () {
-        snareSampler.triggerAttack("C4");
-      };
-      snareBTN.addEventListener("touchstart", snareEventListener);
-
-      hi_hatEventListener = function () {
-        hi_hatSampler.triggerAttack("C4");
-      };
-      hi_hatBTN.addEventListener("touchstart", hi_hatEventListener);
-
-      clapEventListener = function () {
-        clapSampler.triggerAttack("C4");
-      };
-      clapBTN.addEventListener("touchstart", clapEventListener);
-
-      tomEventListener = function () {
-        tomSampler.triggerAttack("C4");
-      };
-      tomBTN.addEventListener("touchstart", tomEventListener);
-
-      digitaltomEventListener = function () {
-        digital_tomSampler.triggerAttack("C4");
-      };
-      digital_tomBTN.addEventListener("touchstart", digitaltomEventListener);
-      break;
-    case 2:
-      console.log("perfil 2");
-      kickEventListener = function () {
-        crashSampler.triggerAttack("D4");
-      };
-      kickBTN.addEventListener("touchstart", kickEventListener);
-
-      snareEventListener = function () {
-        digital_cowbellSampler.triggerAttack("C4");
-      };
-      snareBTN.addEventListener("touchstart", snareEventListener);
-
-      hi_hatEventListener = function () {
-        digital_cowbell_2Sampler.triggerAttack("C4");
-      };
-      hi_hatBTN.addEventListener("touchstart", hi_hatEventListener);
-
-      clapEventListener = function () {
-        djembeSampler.triggerAttack("C4");
-      };
-      clapBTN.addEventListener("touchstart", clapEventListener);
-
-      tomEventListener = function () {
-        steel_drumSampler.triggerAttack("C4");
-      };
-      tomBTN.addEventListener("touchstart", tomEventListener);
-
-      digitaltomEventListener = function () {
-        short_bassSampler.triggerAttack("C4");
-      };
-      digital_tomBTN.addEventListener("touchstart", digitaltomEventListener);
-
-      break;
   }
 }
 
@@ -979,9 +1005,7 @@ function toggleFatEffect(effect, button) {
 }
 
 // Adiciona eventos de clique aos botões de efeito
-
 // TUDO ISTO É CLICK
-
 reverbBTN.addEventListener("touchstart", function () {
   toggleEffect(reverb, reverbBTN);
 });
@@ -1001,34 +1025,34 @@ tremoloBTN.addEventListener("touchstart", function () {
 
 
 //touchstart
- circle_left.addEventListener("touchstart", function (e) {
-   if (mousedown) return;
+circle_left.addEventListener("touchstart", function (e) {
+  if (mousedown) return;
 
-   oscillator.frequency.value = calculateFrequency(e.targetTouches[0].clientX, circle_left);
-   gainNode.gain.value = calculateGain(e.targetTouches[0].clientY, circle_left);
+  oscillator.frequency.value = calculateFrequency(e.targetTouches[0].clientX, circle_left);
+  gainNode.gain.value = calculateGain(e.targetTouches[0].clientY, circle_left);
 
-   oscillator.start();
+  oscillator.start();
   mousedown = true;
 });
 
 //touchend
- circle_left.addEventListener("touchend", function () {
-   if (mousedown) {
-     oscillator.stop();
-     mousedown = false;
-   }
+circle_left.addEventListener("touchend", function () {
+  if (mousedown) {
+    oscillator.stop();
+    mousedown = false;
+  }
 });
 
 //touchmove
 circle_left.addEventListener("touchmove", function (e) {
   if (mousedown) {
-     oscillator.frequency.value = calculateFrequency(e.targetTouches[0].clientX, circle_left);
-     gainNode.gain.value = calculateGain(e.targetTouches[0].clientY, circle_left);
-   }
+    oscillator.frequency.value = calculateFrequency(e.targetTouches[0].clientX, circle_left);
+    gainNode.gain.value = calculateGain(e.targetTouches[0].clientY, circle_left);
+  }
 });
 
 
-
+// mousedown
 circle_right.addEventListener("mousedown", function (e) {
   if (mousedown) return;
 
@@ -1039,7 +1063,7 @@ circle_right.addEventListener("mousedown", function (e) {
   mousedown = true;
 });
 
-//touchend
+// mouseup
 circle_right.addEventListener("mouseup", function () {
   if (mousedown) {
     fat.stop();
@@ -1047,7 +1071,7 @@ circle_right.addEventListener("mouseup", function () {
   }
 });
 
-//touchmove
+// mousemove
 circle_right.addEventListener("mousemove", function (e) {
   if (mousedown) {
     fat.frequency.value = calculateFrequencyReverse(e.clientX, circle_right);
@@ -1071,7 +1095,7 @@ function calculateFrequency(mouseXPosition, circle_left) {
   if (relativeX >= 0 && relativeX <= circleWidth) {
     //mapear o rato para uma frequência dentro do círculo
     return (relativeX / circleWidth) * (maxFrequency - minFrequency) + minFrequency;
-    } else {
+  } else {
     // fora do círculo
     return minFrequency;
   }
@@ -1136,26 +1160,18 @@ function calculateGainReverse(mouseYPosition, circle_right) {
 }
 
 
-// interact(circle_left)
-//   .gesturable({
-//     onstart: function (event) {
-//       // inicio
-//       oscillator.start();
-//     },
-//     onmove: function (event) {
-//       const rotation = event.rotation;
-//       if (rotation < 0) {
-//         oscillator.type = 'sine'; // Senoidal
-//       } else if (rotation < 90) {
-//         oscillator.type = 'square'; // Quadrada
-//       } else if (rotation < 180) {
-//         oscillator.type = 'sawtooth'; // Serrilhada
-//       } else {
-//         oscillator.type = 'triangle'; // Triangular
-//       }
-//     },
-//     onend: function (event) {
-//       // Fim
-//       oscillator.stop();
-//     },
-//   });
+/* 
+  Coisas para fazer: 
+    - Melhorar a interação com o circulo !!!! IMPORTANTE
+    - Tentar perceber como posso melhorar o clicar no botão do fx
+    - como fazer para melhor se perceber o efeito dos fx
+
+    - Fixes:
+      - Circulo deteta fora 
+      - Circulo sem efeito nao deteta o volume
+
+    - Feito: 
+        - Mudar a cor dos ritmos ao tocar no perfil 
+        - Perfil nao deteta, so quando damos click no segundo perfil
+        - Pinch Zoom bloqueado
+*/ 
