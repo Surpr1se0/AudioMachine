@@ -383,13 +383,13 @@ function AnimateClick() {
 function AnimateDragLeft() {
   var canvasEl = document.querySelector(".transparent-c-left");
   var ctx = canvasEl.getContext("2d");
-  var numberOfParticules = 30;
+  var numberOfParticules = 1;
   var pointerX = 0;
   var pointerY = 0;
   var tap =
     "ontouchstart" in window || navigator.msMaxTouchPoints
       ? "touchstart"
-      : "mousemove";
+      : "touchmove";
   var colors = ["#FFD100", "#0074FF", "#1E305E", "#FF5D25", "#FFFFFF"];
 
   function setCanvasSize() {
@@ -532,7 +532,7 @@ function AnimateDragLeft() {
 function AnimateDragRight() {
   var canvasEl = document.querySelector(".transparent-c-right");
   var ctx = canvasEl.getContext("2d");
-  var numberOfParticules = 30;
+  var numberOfParticules = 1;
   var pointerX = 0;
   var pointerY = 0;
   var tap =
@@ -779,22 +779,22 @@ function setProfile(profile) {
   }
 
   if (kickEventListener) {
-    kickBTN.removeEventListener("click", kickEventListener);
+    kickBTN.removeEventListener("touchstart", kickEventListener);
   }
   if (snareEventListener) {
-    snareBTN.removeEventListener("click", snareEventListener);
+    snareBTN.removeEventListener("touchstart", snareEventListener);
   }
   if (hi_hatEventListener) {
-    hi_hatBTN.removeEventListener("click", hi_hatEventListener);
+    hi_hatBTN.removeEventListener("touchstart", hi_hatEventListener);
   }
   if (clapEventListener) {
-    clapBTN.removeEventListener("click", clapEventListener);
+    clapBTN.removeEventListener("touchstart", clapEventListener);
   }
   if (tomEventListener) {
-    tomBTN.removeEventListener("click", tomEventListener);
+    tomBTN.removeEventListener("touchstart", tomEventListener);
   }
   if (digitaltomEventListener) {
-    digital_tomBTN.removeEventListener("click", digitaltomEventListener);
+    digital_tomBTN.removeEventListener("touchstart", digitaltomEventListener);
   }
 
   currentProfile = profile;
@@ -805,76 +805,76 @@ function setProfile(profile) {
       kickEventListener = function () {
         kickSampler.triggerAttack("C4");
       };
-      kickBTN.addEventListener("click", kickEventListener);
+      kickBTN.addEventListener("touchstart", kickEventListener);
 
       snareEventListener = function () {
         snareSampler.triggerAttack("C4");
       };
-      snareBTN.addEventListener("click", snareEventListener);
+      snareBTN.addEventListener("touchstart", snareEventListener);
 
       hi_hatEventListener = function () {
         hi_hatSampler.triggerAttack("C4");
       };
-      hi_hatBTN.addEventListener("click", hi_hatEventListener);
+      hi_hatBTN.addEventListener("touchstart", hi_hatEventListener);
 
       clapEventListener = function () {
         clapSampler.triggerAttack("C4");
       };
-      clapBTN.addEventListener("click", clapEventListener);
+      clapBTN.addEventListener("touchstart", clapEventListener);
 
       tomEventListener = function () {
         tomSampler.triggerAttack("C4");
       };
-      tomBTN.addEventListener("click", tomEventListener);
+      tomBTN.addEventListener("touchstart", tomEventListener);
 
       digitaltomEventListener = function () {
         digital_tomSampler.triggerAttack("C4");
       };
-      digital_tomBTN.addEventListener("click", digitaltomEventListener);
+      digital_tomBTN.addEventListener("touchstart", digitaltomEventListener);
       break;
     case 2:
       console.log("perfil 2");
       kickEventListener = function () {
         crashSampler.triggerAttack("D4");
       };
-      kickBTN.addEventListener("click", kickEventListener);
+      kickBTN.addEventListener("touchstart", kickEventListener);
 
       snareEventListener = function () {
         digital_cowbellSampler.triggerAttack("C4");
       };
-      snareBTN.addEventListener("click", snareEventListener);
+      snareBTN.addEventListener("touchstart", snareEventListener);
 
       hi_hatEventListener = function () {
         digital_cowbell_2Sampler.triggerAttack("C4");
       };
-      hi_hatBTN.addEventListener("click", hi_hatEventListener);
+      hi_hatBTN.addEventListener("touchstart", hi_hatEventListener);
 
       clapEventListener = function () {
         djembeSampler.triggerAttack("C4");
       };
-      clapBTN.addEventListener("click", clapEventListener);
+      clapBTN.addEventListener("touchstart", clapEventListener);
 
       tomEventListener = function () {
         steel_drumSampler.triggerAttack("C4");
       };
-      tomBTN.addEventListener("click", tomEventListener);
+      tomBTN.addEventListener("touchstart", tomEventListener);
 
       digitaltomEventListener = function () {
         short_bassSampler.triggerAttack("C4");
       };
-      digital_tomBTN.addEventListener("click", digitaltomEventListener);
+      digital_tomBTN.addEventListener("touchstart", digitaltomEventListener);
 
       break;
   }
 }
 
-profile1BTN.addEventListener("click", function () {
+profile1BTN.addEventListener("touchstart", function () {
   profile1BTN.classList.add("pressed");
   profile2BTN.classList.remove("pressed");
   setProfile(1);
 });
 
-profile2BTN.addEventListener("click", function () {
+profile2BTN.addEventListener("touchstart", function () {
   profile2BTN.classList.add("pressed");
   profile1BTN.classList.remove("pressed");
   setProfile(2);
@@ -979,48 +979,55 @@ function toggleFatEffect(effect, button) {
 }
 
 // Adiciona eventos de clique aos botões de efeito
-reverbBTN.addEventListener("click", function () {
+
+// TUDO ISTO É CLICK
+
+reverbBTN.addEventListener("touchstart", function () {
   toggleEffect(reverb, reverbBTN);
 });
 
-distortionBTN.addEventListener("click", function () {
+distortionBTN.addEventListener("touchstart", function () {
   toggleEffect(distortion, distortionBTN);
 });
 
-crusherBTN.addEventListener("click", function () {
+crusherBTN.addEventListener("touchstart", function () {
   toggleFatEffect(crusher, crusherBTN);
 });
 
-tremoloBTN.addEventListener("click", function () {
+tremoloBTN.addEventListener("touchstart", function () {
   toggleFatEffect(tremolo, tremoloBTN);
 });
 
+
+
 //touchstart
-circle_left.addEventListener("mousedown", function (e) {
-  if (mousedown) return;
+ circle_left.addEventListener("touchstart", function (e) {
+   if (mousedown) return;
 
-  oscillator.frequency.value = calculateFrequency(e.clientX, circle_left);
-  gainNode.gain.value = calculateGain(e.clientY, circle_left);
+   oscillator.frequency.value = calculateFrequency(e.targetTouches[0].clientX, circle_left);
+   gainNode.gain.value = calculateGain(e.targetTouches[0].clientY, circle_left);
 
-  oscillator.start();
+   oscillator.start();
   mousedown = true;
 });
 
 //touchend
-circle_left.addEventListener("mouseup", function () {
-  if (mousedown) {
-    oscillator.stop();
-    mousedown = false;
-  }
+ circle_left.addEventListener("touchend", function () {
+   if (mousedown) {
+     oscillator.stop();
+     mousedown = false;
+   }
 });
 
 //touchmove
-circle_left.addEventListener("mousemove", function (e) {
+circle_left.addEventListener("touchmove", function (e) {
   if (mousedown) {
-    oscillator.frequency.value = calculateFrequency(e.clientX, circle_left);
-    gainNode.gain.value = calculateGain(e.clientY, circle_left);
-  }
+     oscillator.frequency.value = calculateFrequency(e.targetTouches[0].clientX, circle_left);
+     gainNode.gain.value = calculateGain(e.targetTouches[0].clientY, circle_left);
+   }
 });
+
+
 
 circle_right.addEventListener("mousedown", function (e) {
   if (mousedown) return;
@@ -1063,10 +1070,10 @@ function calculateFrequency(mouseXPosition, circle_left) {
   // o rato está dentro do círculo
   if (relativeX >= 0 && relativeX <= circleWidth) {
     //mapear o rato para uma frequência dentro do círculo
-    return (relativeX / circleWidth) * maxFrequency + minFrequency;
-  } else {
+    return (relativeX / circleWidth) * (maxFrequency - minFrequency) + minFrequency;
+    } else {
     // fora do círculo
-    return -1;
+    return minFrequency;
   }
 }
 
@@ -1127,3 +1134,28 @@ function calculateGainReverse(mouseYPosition, circle_right) {
     return minGain;
   }
 }
+
+
+// interact(circle_left)
+//   .gesturable({
+//     onstart: function (event) {
+//       // inicio
+//       oscillator.start();
+//     },
+//     onmove: function (event) {
+//       const rotation = event.rotation;
+//       if (rotation < 0) {
+//         oscillator.type = 'sine'; // Senoidal
+//       } else if (rotation < 90) {
+//         oscillator.type = 'square'; // Quadrada
+//       } else if (rotation < 180) {
+//         oscillator.type = 'sawtooth'; // Serrilhada
+//       } else {
+//         oscillator.type = 'triangle'; // Triangular
+//       }
+//     },
+//     onend: function (event) {
+//       // Fim
+//       oscillator.stop();
+//     },
+//   });
