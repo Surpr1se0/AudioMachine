@@ -698,8 +698,10 @@ var crusher = new Tone.Phaser({
 var tremolo = new Tone.PingPongDelay("4n", 0.2).toDestination();
 
 var gainNode = new Tone.Gain();
+oscillator.volume.value = -15;
 oscillator.connect(gainNode);
 var gainNodeRight = new Tone.Gain();
+fat.volume.value = -15;
 fat.connect(gainNodeRight);
 
 const kickSampler = new Tone.Sampler({
@@ -1052,19 +1054,24 @@ circle_left.addEventListener("touchmove", function (e) {
 });
 
 
+
 // mousedown
-circle_right.addEventListener("mousedown", function (e) {
+circle_right.addEventListener("touchstart", function (e) {
   if (mousedown) return;
 
-  fat.frequency.value = calculateFrequencyReverse(e.clientX, circle_right);
-  gainNodeRight.gain.value = calculateGainReverse(e.clientY, circle_right);
+
+  fat.frequency.value = calculateFrequencyReverse(e.targetTouches[0].clientX, circle_right);
+  gainNodeRight.gain.value = calculateGainReverse(e.targetTouches[0].clientY, circle_right);
+
+  // fat.frequency.value = calculateFrequencyReverse(e.clientX, circle_right);
+  // gainNodeRight.gain.value = calculateGainReverse(e.clientY, circle_right);
 
   fat.start();
   mousedown = true;
 });
 
 // mouseup
-circle_right.addEventListener("mouseup", function () {
+circle_right.addEventListener("touchend", function () {
   if (mousedown) {
     fat.stop();
     mousedown = false;
@@ -1072,12 +1079,17 @@ circle_right.addEventListener("mouseup", function () {
 });
 
 // mousemove
-circle_right.addEventListener("mousemove", function (e) {
+circle_right.addEventListener("touchmove", function (e) {
   if (mousedown) {
-    fat.frequency.value = calculateFrequencyReverse(e.clientX, circle_right);
-    gainNodeRight.gain.value = calculateGainReverse(e.clientY, circle_right);
+
+    fat.frequency.value = calculateFrequencyReverse(e.targetTouches[0].clientX, circle_right);
+    gainNodeRight.gain.value = calculateGainReverse(e.targetTouches[0].clientY, circle_right);
+    // fat.frequency.value = calculateFrequencyReverse(e.clientX, circle_right);
+    // gainNodeRight.gain.value = calculateGainReverse(e.clientY, circle_right);
   }
 });
+
+
 
 function calculateFrequency(mouseXPosition, circle_left) {
   var minFrequency = 20,
@@ -1169,6 +1181,7 @@ function calculateGainReverse(mouseYPosition, circle_right) {
     - Fixes:
       - Circulo deteta fora 
       - Circulo sem efeito nao deteta o volume
+      - Fx button devia ser mais escuro
 
     - Feito: 
         - Mudar a cor dos ritmos ao tocar no perfil 
