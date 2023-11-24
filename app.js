@@ -955,13 +955,13 @@ fxSlider1.draggable({
   listeners: {
     move(event) {
       const sliderWidth = interact.getElementRect(event.target).width;
-      const value = 1 - event.pageX / sliderWidth; // Inverta o cálculo do valor
+      const value = event.pageX / sliderWidth;
 
-      event.target.style.paddingLeft = (1 - value) * 100 + "%"; // Use paddingRight em vez de paddingLeft
+      event.target.style.paddingLeft = value * 100 + "%";
       event.target.setAttribute("data-value", value.toFixed(2));
 
-      // Inverta os valores de reverb.wet.value e distortion.wet.value
-      var fxLevel = value; // Use o valor calculado acima ou ajuste conforme necessário
+      // Atualizar os valores de reverb.wet.value e distortion.wet.value aqui
+      var fxLevel = 1 - value; // Use o valor calculado acima ou ajuste conforme necessário
       crusher.wet.value = fxLevel;
       tremolo.wet.value = fxLevel;
     },
