@@ -1,5 +1,10 @@
 Tone.start();
 
+// prevent the context menu
+document.addEventListener('contextmenu', function (e) {
+  e.preventDefault();
+});
+
 function AnimateCanvas() {
   var c = document.getElementById("c");
   var ctx = c.getContext("2d");
