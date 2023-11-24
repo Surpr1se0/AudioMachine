@@ -539,7 +539,7 @@ function AnimateDragRight() {
   var tap =
     "ontouchstart" in window || navigator.msMaxTouchPoints
       ? "touchstart"
-      : "mousemove";
+      : "touchmove";
   var colors = ["#FFD100", "#0074FF", "#1E305E", "#FF5D25", "#FFFFFF"];
 
   function setCanvasSize() {
@@ -1188,3 +1188,18 @@ function calculateGainReverse(mouseYPosition, circle_right) {
         - Perfil nao deteta, so quando damos click no segundo perfil
         - Pinch Zoom bloqueado
 */ 
+
+
+/*
+  - Lista de funcionalidades Implementadas
+
+
+  - Lista ainda a implementar
+    - Adicionar interação com o círculo
+    - Alterar os Icones dos ritmos
+    - Melhorar o posicionamento dos perfis dos ritmos
+    - Melhorar o slider de efeitos e a sua relação com os botões de efeitos em si
+    - Melhorar a animação dos botões
+    - Melhorar a animação dos círculos
+
+*/
