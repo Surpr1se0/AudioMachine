@@ -88,6 +88,7 @@ body {
   background: linear-gradient(20deg, #3A86FF 0%, #8338EC 100%, #8338EC 100%);
   border-radius: 9999px;
   border: 5px black solid;
+  transform: rotate(180deg);
 }
 
 #clap-icon{
@@ -103,6 +104,7 @@ body {
   background: linear-gradient(180deg, #3A86FF 0%, #00FF87 100%);
   border-radius: 9999px;
   border: 5px black solid;
+  transform: rotate(180deg);
 }
 
 #digital_tom-icon{
@@ -118,6 +120,7 @@ body {
   background: linear-gradient(3deg, #FFBE0B 0%, #00FF87 100%);
   border-radius: 9999px;
   border: 5px black solid;
+  transform: rotate(180deg);
 }
 
 #snare-icon{
