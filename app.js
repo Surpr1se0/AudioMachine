@@ -1,10 +1,11 @@
 Tone.start();
 
-// prevent the context menu
-document.addEventListener('contextmenu', function (e) {
+// To prevent the context menu
+document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
 
+// Animate the canvas color change when clicking
 function AnimateCanvas() {
   var c = document.getElementById("c");
   var ctx = c.getContext("2d");
@@ -235,13 +236,14 @@ function AnimateCanvas() {
   }
 }
 
+// Animate the effects when clicking buttons
 function AnimateClick() {
   var canvasEl = document.querySelector(".c");
   var ctx = canvasEl.getContext("2d");
   var numberOfParticules = 30;
   var pointerX = 0;
   var pointerY = 0;
-  // Cuidado aqui - event listeners
+  // Careful - event listeners
   var tap =
     "ontouchstart" in window || navigator.msMaxTouchPoints
       ? "touchstart"
@@ -386,6 +388,7 @@ function AnimateClick() {
   window.addEventListener("resize", setCanvasSize, false);
 }
 
+// Animate the drag in the left circle
 function AnimateDragLeft() {
   var canvasEl = document.querySelector(".transparent-c-left");
   var ctx = canvasEl.getContext("2d");
@@ -517,7 +520,6 @@ function AnimateDragLeft() {
   circle_left.addEventListener(tap, handleFXButtonClick, false);
   //circle_right.addEventListener(tap, handleFXButtonClick, false);
 
-
   var centerX = window.innerWidth / 2;
   var centerY = window.innerHeight / 2;
 
@@ -535,6 +537,7 @@ function AnimateDragLeft() {
   window.addEventListener("resize", setCanvasSize, false);
 }
 
+// Animate the drag in the right circle
 function AnimateDragRight() {
   var canvasEl = document.querySelector(".transparent-c-right");
   var ctx = canvasEl.getContext("2d");
@@ -666,7 +669,6 @@ function AnimateDragRight() {
   // circle_left.addEventListener(tap, handleFXButtonClick, false);
   circle_right.addEventListener(tap, handleFXButtonClick, false);
 
-
   var centerX = window.innerWidth / 2;
   var centerY = window.innerHeight / 2;
 
@@ -685,14 +687,16 @@ function AnimateDragRight() {
 }
 
 var mousedown = false;
-var oscillator = new Tone.Oscillator().toDestination();
-var fat = new Tone.FatOscillator("A3", "sine", 40).toDestination();
-
 var isReverbActive = false;
 var isDistortionActive = false;
 var isCrusherActive = false;
 var isTremoloActive = false;
 
+// Create oscilators
+var oscillator = new Tone.Oscillator().toDestination();
+var fat = new Tone.FatOscillator("A3", "sine", 40).toDestination();
+
+// Create effect signal
 var reverb = new Tone.Reverb().toDestination();
 var distortion = new Tone.Distortion(0.8).toDestination();
 var crusher = new Tone.Phaser({
@@ -702,6 +706,7 @@ var crusher = new Tone.Phaser({
 }).toDestination();
 var tremolo = new Tone.PingPongDelay("4n", 0.2).toDestination();
 
+// regulate the sound with Gain Node
 var gainNode = new Tone.Gain();
 oscillator.volume.value = -15;
 oscillator.connect(gainNode);
@@ -709,104 +714,116 @@ var gainNodeRight = new Tone.Gain();
 fat.volume.value = -15;
 fat.connect(gainNodeRight);
 
-const kickSampler = new Tone.Sampler({
-  C4: "./samples/kick.wav",
-}).toDestination();
-const snareSampler = new Tone.Sampler({
-  C4: "./samples/snare.wav",
-}).toDestination();
-const hi_hatSampler = new Tone.Sampler({
-  C4: "./samples/hi-hat.wav",
-}).toDestination();
-const clapSampler = new Tone.Sampler({
-  C4: "./samples/clap.wav",
-}).toDestination();
-const tomSampler = new Tone.Sampler({
-  C4: "./samples/tom.wav",
-}).toDestination();
-const digital_tomSampler = new Tone.Sampler({
-  C4: "./samples/digital-tom.wav",
-}).toDestination();
+// Import Samples Function
+function createSampler(samplePath) {
+  return new Tone.Sampler({
+    C4: samplePath,
+  }).toDestination();
+}
 
 // Kick
-const crashSampler = new Tone.Sampler({
-  C4: "./samples/crash.mp3",
-}).toDestination();
-// snare
-const digital_cowbell_2Sampler = new Tone.Sampler({
-  C4: "./samples/digital-cowbell-2.wav",
-}).toDestination();
+const kickSampler = createSampler("./samples/kick.wav");
+// Snare
+const snareSampler = createSampler("./samples/snare.wav");
+// Hi hat
+const hiHatSampler = createSampler("./samples/hi-hat.wav");
+// Clap
+const clapSampler = createSampler("./samples/clap.wav");
+// Tom
+const tomSampler = createSampler("./samples/tom.wav");
+// Digital Tom
+const digitalTomSampler = createSampler("./samples/digital-tom.wav");
+
+// Kick
+const crashSampler = createSampler("./samples/crash.mp3");
+// Snare
+const digitalCowbell2Sampler = createSampler("./samples/digital-cowbell-2.wav");
 // Hi Hat
-const digital_cowbellSampler = new Tone.Sampler({
-  C4: "./samples/digital-cowbell.wav",
-}).toDestination();
-// Tom Sampler
-const djembeSampler = new Tone.Sampler({
-  C4: "./samples/djembe.wav",
-}).toDestination();
-// clap
-const drum_sticksSampler = new Tone.Sampler({
-  C4: "./samples/drum-sticks.mp3",
-}).toDestination();
+const digitalCowbellSampler = createSampler("./samples/digital-cowbell.wav");
+// Tom
+const djembeSampler = createSampler("./samples/djembe.wav");
+// Clap
+const drumSticksSampler = createSampler("./samples/drum-sticks.mp3");
 // Sampler
-const short_bassSampler = new Tone.Sampler({
-  C4: "./samples/short-bass.wav",
-}).toDestination();
-// digital Sampler
-const steel_drumSampler = new Tone.Sampler({
-  C4: "./samples/steel-drum.wav",
-}).toDestination();
+const shortBassSampler = createSampler("./samples/short-bass.wav");
+// Digital Sampler
+const steelDrumSampler = createSampler("./samples/steel-drum.wav");
 
-var reverbBTN = document.getElementById("fx-left-btn1");
+// Get Elements for FX Button
+var reverbBTN =     document.getElementById("fx-left-btn1");
 var distortionBTN = document.getElementById("fx-left-btn2");
-var crusherBTN = document.getElementById("fx-right-btn1");
-var tremoloBTN = document.getElementById("fx-right-btn2");
+var crusherBTN =    document.getElementById("fx-right-btn1");
+var tremoloBTN =    document.getElementById("fx-right-btn2");
+
 const fxButtons = [reverbBTN, distortionBTN, crusherBTN, tremoloBTN];
-let activeEffect = null;
+let activeEffect = null; // Active or Not Flag
 
-const circle_left = document.getElementById("circle-left");
-const circle_right = document.getElementById("circle-right");
+// Get Elements for Circle
+const circle_left =   document.getElementById("circle-left");
+const circle_right =  document.getElementById("circle-right");
 
-const kickBTN = document.getElementById("kick-btn");
-const snareBTN = document.getElementById("snare-btn");
+// Get Rythm Buttons
+const kickBTN =   document.getElementById("kick-btn");
+const snareBTN =  document.getElementById("snare-btn");
 const hi_hatBTN = document.getElementById("hi_hat-btn");
-const clapBTN = document.getElementById("clap-btn");
-const tomBTN = document.getElementById("tom-btn");
+const clapBTN =   document.getElementById("clap-btn");
+const tomBTN =    document.getElementById("tom-btn");
 const digital_tomBTN = document.getElementById("digital_tom-btn");
 
+// Listeners for Rythm Buttons
+let kickEventListener,
+    snareEventListener,
+    hi_hatEventListener,
+    clapEventListener,
+    tomEventListener,
+    digitaltomEventListener = null;
+
+// Get Profile Buttons
 const profile1BTN = document.getElementById("profile-1-btn");
 const profile2BTN = document.getElementById("profile-2-btn");
-let currentProfile = null;
-let kickEventListener, snareEventListener, hi_hatEventListener, clapEventListener, tomEventListener, digitaltomEventListener = null;
-
 const profileButtons = document.querySelectorAll(".button-29");
 
-// Tudo o que é touchstart, antes seria click
+let currentProfile = null;
+
+// Add event listeners for the profile buttons -> probable errors in here
+profile1BTN.addEventListener("touchstart", function () {
+  profile1BTN.classList.add("pressed");
+  profile2BTN.classList.remove("pressed");
+  setProfile(1);
+});
+
+profile2BTN.addEventListener("touchstart", function () {
+  profile2BTN.classList.add("pressed");
+  profile1BTN.classList.remove("pressed");
+  setProfile(2);
+});
+
+// Function to set the correct sound to the profile
 function setProfile(profile) {
+  // TouchStart -> Click (Depends on Touch or Mouse)
   if (currentProfile === profile) {
-    return; // Nada a fazer se o perfil já estiver ativo
+    return; // Nothing to do if a profile is selected
   }
 
   removeEventListeners();
-
   currentProfile = profile;
 
   if (profile === 1) {
     changeButtonColors(
-      'kick-btn',
-      'hi_hat-btn',
-      'tom-btn',
-      'linear-gradient(20deg, #3A86FF 0%, #8338EC 100%, #8338EC 100%)'
+      "kick-btn",
+      "hi_hat-btn",
+      "tom-btn",
+      "linear-gradient(20deg, #3A86FF 0%, #8338EC 100%, #8338EC 100%)"
     );
 
     changeButtonColors(
-      'clap-btn',
-      'digital_tom-btn',
-      'snare-btn',
-      'linear-gradient(180deg, #3A86FF 0%, #00FF87 100%)'
+      "clap-btn",
+      "digital_tom-btn",
+      "snare-btn",
+      "linear-gradient(180deg, #3A86FF 0%, #00FF87 100%)"
     );
 
-    console.log("perfil 1");
+    console.log("profile 1");
     setEventListeners(
       kickSampler.triggerAttack.bind(kickSampler, "C4"),
       snareSampler.triggerAttack.bind(snareSampler, "C4"),
@@ -816,39 +833,39 @@ function setProfile(profile) {
       digital_tomSampler.triggerAttack.bind(digital_tomSampler, "C4")
     );
   } else if (profile === 2) {
-    changeButtonColors(
-      'kick-btn',
-      'hi_hat-btn',
-      'tom-btn',
-      'lightblue'
-    );
+    changeButtonColors("kick-btn", "hi_hat-btn", "tom-btn", "lightblue");
 
-    changeButtonColors(
-      'clap-btn',
-      'digital_tom-btn',
-      'snare-btn',
-      'lightblue'
-    );
+    changeButtonColors("clap-btn", "digital_tom-btn", "snare-btn", "lightblue");
 
-    console.log("perfil 2");
+    console.log("profile 2");
     setEventListeners(
       crashSampler.triggerAttack.bind(crashSampler, "D4"),
       digital_cowbellSampler.triggerAttack.bind(digital_cowbellSampler, "C4"),
-      digital_cowbell_2Sampler.triggerAttack.bind(digital_cowbell_2Sampler, "C4"),
+      digital_cowbell_2Sampler.triggerAttack.bind(
+        digital_cowbell_2Sampler,
+        "C4"
+      ),
       djembeSampler.triggerAttack.bind(djembeSampler, "C4"),
       steel_drumSampler.triggerAttack.bind(steel_drumSampler, "C4"),
       short_bassSampler.triggerAttack.bind(short_bassSampler, "C4")
     );
   }
 }
-
+// Changes button colors 
 function changeButtonColors(btn1, btn2, btn3, color) {
   document.getElementById(btn1).style.background = color;
   document.getElementById(btn2).style.background = color;
   document.getElementById(btn3).style.background = color;
 }
-
-function setEventListeners(kickCallback, snareCallback, hiHatCallback, clapCallback, tomCallback, digitalTomCallback) {
+// Sets event listeners for the buttons
+function setEventListeners(
+  kickCallback,
+  snareCallback,
+  hiHatCallback,
+  clapCallback,
+  tomCallback,
+  digitalTomCallback
+) {
   kickEventListener = function () {
     kickCallback();
   };
@@ -901,23 +918,13 @@ function removeEventListeners() {
   }
 }
 
-profile1BTN.addEventListener("touchstart", function () {
-  profile1BTN.classList.add("pressed");
-  profile2BTN.classList.remove("pressed");
-  setProfile(1);
-});
-
-profile2BTN.addEventListener("touchstart", function () {
-  profile2BTN.classList.add("pressed");
-  profile1BTN.classList.remove("pressed");
-  setProfile(2);
-});
-
+// Callout animations for the drags, click, etc...
 AnimateDragLeft();
 AnimateDragRight();
 AnimateClick();
 AnimateCanvas();
 
+// Using anime.js to anime the slider
 const fxSlider = interact(".slider-left");
 fxSlider.draggable({
   origin: "self",
@@ -968,11 +975,10 @@ fxSlider1.draggable({
   },
 });
 
-
-// Função para ativar/desativar um efeito
+// Function to activate / deactivate an effect
 function toggleEffect(effect, button) {
   if (activeEffect === effect) {
-    // Desativa o efeito
+    // Deactivate
     effect.disconnect();
     oscillator.disconnect();
     oscillator.connect(gainNode);
@@ -980,7 +986,7 @@ function toggleEffect(effect, button) {
     activeEffect = null;
     button.classList.remove("pressed");
   } else {
-    // Ativa o efeito
+    // Activate
     oscillator.disconnect();
     oscillator.connect(gainNode);
     gainNode.connect(effect);
@@ -990,10 +996,10 @@ function toggleEffect(effect, button) {
   }
 }
 
-// Função para ativar/desativar um efeito associado ao "fat"
+// Function to activate / deactivate effect on FAT oscilator
 function toggleFatEffect(effect, button) {
   if (activeEffect === effect) {
-    // Desativa o efeito associado ao "fat"
+    // Deactivate
     effect.disconnect();
     fat.disconnect();
     fat.connect(gainNodeRight);
@@ -1001,7 +1007,7 @@ function toggleFatEffect(effect, button) {
     activeEffect = null;
     button.classList.remove("pressed");
   } else {
-    // Ativa o efeito associado ao "fat"
+    // Activate
     fat.disconnect();
     fat.connect(gainNodeRight);
     gainNodeRight.connect(effect);
@@ -1011,8 +1017,7 @@ function toggleFatEffect(effect, button) {
   }
 }
 
-// Adiciona eventos de clique aos botões de efeito
-// TUDO ISTO É CLICK
+// Click/Touch events to fx buttons
 reverbBTN.addEventListener("touchstart", function () {
   toggleEffect(reverb, reverbBTN);
 });
@@ -1029,20 +1034,22 @@ tremoloBTN.addEventListener("touchstart", function () {
   toggleFatEffect(tremolo, tremoloBTN);
 });
 
-
-
-//touchstart
+// Click/Touch events to circle / Oscillators
 circle_left.addEventListener("touchstart", function (e) {
   if (mousedown) return;
 
-  oscillator.frequency.value = calculateFrequency(e.targetTouches[0].clientX, circle_left);
+  // Calculate frequency depending on the position of the touch
+  oscillator.frequency.value = calculateFrequency(
+    e.targetTouches[0].clientX,
+    circle_left
+  );
+  // also calculate gain depending on the position of the touch
   gainNode.gain.value = calculateGain(e.targetTouches[0].clientY, circle_left);
 
   oscillator.start();
   mousedown = true;
 });
 
-//touchend
 circle_left.addEventListener("touchend", function () {
   if (mousedown) {
     oscillator.stop();
@@ -1050,23 +1057,30 @@ circle_left.addEventListener("touchend", function () {
   }
 });
 
-//touchmove
 circle_left.addEventListener("touchmove", function (e) {
   if (mousedown) {
-    oscillator.frequency.value = calculateFrequency(e.targetTouches[0].clientX, circle_left);
-    gainNode.gain.value = calculateGain(e.targetTouches[0].clientY, circle_left);
+    oscillator.frequency.value = calculateFrequency(
+      e.targetTouches[0].clientX,
+      circle_left
+    );
+    gainNode.gain.value = calculateGain(
+      e.targetTouches[0].clientY,
+      circle_left
+    );
   }
 });
-
-
-
-// mousedown
+// Same thing as below, only now to the other oscilator
 circle_right.addEventListener("touchstart", function (e) {
   if (mousedown) return;
 
-
-  fat.frequency.value = calculateFrequencyReverse(e.targetTouches[0].clientX, circle_right);
-  gainNodeRight.gain.value = calculateGainReverse(e.targetTouches[0].clientY, circle_right);
+  fat.frequency.value = calculateFrequencyReverse(
+    e.targetTouches[0].clientX,
+    circle_right
+  );
+  gainNodeRight.gain.value = calculateGainReverse(
+    e.targetTouches[0].clientY,
+    circle_right
+  );
 
   // fat.frequency.value = calculateFrequencyReverse(e.clientX, circle_right);
   // gainNodeRight.gain.value = calculateGainReverse(e.clientY, circle_right);
@@ -1075,7 +1089,6 @@ circle_right.addEventListener("touchstart", function (e) {
   mousedown = true;
 });
 
-// mouseup
 circle_right.addEventListener("touchend", function () {
   if (mousedown) {
     fat.stop();
@@ -1086,60 +1099,67 @@ circle_right.addEventListener("touchend", function () {
 // mousemove
 circle_right.addEventListener("touchmove", function (e) {
   if (mousedown) {
-
-    fat.frequency.value = calculateFrequencyReverse(e.targetTouches[0].clientX, circle_right);
-    gainNodeRight.gain.value = calculateGainReverse(e.targetTouches[0].clientY, circle_right);
+    fat.frequency.value = calculateFrequencyReverse(
+      e.targetTouches[0].clientX,
+      circle_right
+    );
+    gainNodeRight.gain.value = calculateGainReverse(
+      e.targetTouches[0].clientY,
+      circle_right
+    );
     // fat.frequency.value = calculateFrequencyReverse(e.clientX, circle_right);
     // gainNodeRight.gain.value = calculateGainReverse(e.clientY, circle_right);
   }
 });
 
-
-
+// Function to Calculate Frequency and Position Mapping
 function calculateFrequency(mouseXPosition, circle_left) {
   var minFrequency = 20,
     maxFrequency = 2000;
 
-  // dimensões do círculo
+  // Circle dimensions
   var circleRect = circle_left.getBoundingClientRect();
   var circleWidth = circleRect.width;
   var circleLeft = circleRect.left;
 
-  // posição relativa do rato dentro do círculo
+  // relative position to the circle
   var relativeX = mouseXPosition - circleLeft;
 
-  // o rato está dentro do círculo
+  // if mouse is inside circle
   if (relativeX >= 0 && relativeX <= circleWidth) {
-    //mapear o rato para uma frequência dentro do círculo
-    return (relativeX / circleWidth) * (maxFrequency - minFrequency) + minFrequency;
+    // map the mouse -> frequency levels
+    return (
+      (relativeX / circleWidth) * (maxFrequency - minFrequency) + minFrequency
+    );
   } else {
-    // fora do círculo
+    // outside of circle
     return minFrequency;
   }
 }
-
+// Same theory but now to make Gain Mapping of the Circle
 function calculateGain(mouseYPosition, circle_left) {
   var minGain = 0,
     maxGain = 1;
 
-  // dimensões do círculo
+  // Circle Dimensions
   var circleRect = circle_left.getBoundingClientRect();
   var circleHeight = circleRect.height;
   var circleTop = circleRect.top;
 
-  // posição relativa do mouse dentro do círculo
+  // Relative Position
   var relativeY = mouseYPosition - circleTop;
 
-  //o rato está dentro do círculo
+  // Mouse is inside the circle
   if (relativeY >= 0 && relativeY <= circleHeight) {
-    // mapear o rato para um ganho dentro do círculo
+    // Map the gain to the relative position
     return 1 - (relativeY / circleHeight) * maxGain;
   } else {
-    // fora do circulo
+    // If outside circle
     return minGain;
   }
 }
 
+// Same thing but now reverse
 function calculateFrequencyReverse(mouseXPosition, circle_right) {
   var minFrequency = 20,
     maxFrequency = 2000;
@@ -1175,36 +1195,3 @@ function calculateGainReverse(mouseYPosition, circle_right) {
     return minGain;
   }
 }
-
-
-/* 
-  Coisas para fazer: 
-    - Melhorar a interação com o circulo !!!! IMPORTANTE
-    - Tentar perceber como posso melhorar o clicar no botão do fx
-    - como fazer para melhor se perceber o efeito dos fx
-
-    - Fixes:
-      - Circulo deteta fora 
-      - Circulo sem efeito nao deteta o volume
-      - Fx button devia ser mais escuro
-
-    - Feito: 
-        - Mudar a cor dos ritmos ao tocar no perfil 
-        - Perfil nao deteta, so quando damos click no segundo perfil
-        - Pinch Zoom bloqueado
-*/ 
-
-
-/*
-  - Lista de funcionalidades Implementadas
-
-
-  - Lista ainda a implementar
-    - Adicionar interação com o círculo
-    - Alterar os Icones dos ritmos
-    - Melhorar o posicionamento dos perfis dos ritmos
-    - Melhorar o slider de efeitos e a sua relação com os botões de efeitos em si
-    - Melhorar a animação dos botões
-    - Melhorar a animação dos círculos
-
-*/
