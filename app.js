@@ -698,6 +698,7 @@ var fat = new Tone.FatOscillator("A3", "sine", 40).toDestination();
 
 // Create effect signal
 var reverb = new Tone.Reverb().toDestination();
+reverb.wet.value = 0.8;
 var distortion = new Tone.Distortion(0.8).toDestination();
 var crusher = new Tone.Phaser({
   frequency: 15,
@@ -714,40 +715,51 @@ var gainNodeRight = new Tone.Gain();
 fat.volume.value = -15;
 fat.connect(gainNodeRight);
 
-// Import Samples Function
-function createSampler(samplePath) {
-  return new Tone.Sampler({
-    C4: samplePath,
-  }).toDestination();
-}
 
-// Kick
-const kickSampler = createSampler("./samples/kick.wav");
-// Snare
-const snareSampler = createSampler("./samples/snare.wav");
-// Hi hat
-const hiHatSampler = createSampler("./samples/hi-hat.wav");
-// Clap
-const clapSampler = createSampler("./samples/clap.wav");
-// Tom
-const tomSampler = createSampler("./samples/tom.wav");
-// Digital Tom
-const digitalTomSampler = createSampler("./samples/digital-tom.wav");
+const kickSampler = new Tone.Sampler({
+  C4: "./samples/kick.wav",
+}).toDestination();
+const snareSampler = new Tone.Sampler({
+  C4: "./samples/snare.wav",
+}).toDestination();
+const hi_hatSampler = new Tone.Sampler({
+  C4: "./samples/hi-hat.wav",
+}).toDestination();
+const clapSampler = new Tone.Sampler({
+  C4: "./samples/clap.wav",
+}).toDestination();
+const tomSampler = new Tone.Sampler({
+  C4: "./samples/tom.wav",
+}).toDestination();
+const digital_tomSampler = new Tone.Sampler({
+  C4: "./samples/digital-tom.wav",
+}).toDestination();
+const crashSampler = new Tone.Sampler({
+  C4: "./samples/crash.mp3",
+}).toDestination();
 
-// Kick
-const crashSampler = createSampler("./samples/crash.mp3");
-// Snare
-const digitalCowbell2Sampler = createSampler("./samples/digital-cowbell-2.wav");
-// Hi Hat
-const digitalCowbellSampler = createSampler("./samples/digital-cowbell.wav");
-// Tom
-const djembeSampler = createSampler("./samples/djembe.wav");
-// Clap
-const drumSticksSampler = createSampler("./samples/drum-sticks.mp3");
-// Sampler
-const shortBassSampler = createSampler("./samples/short-bass.wav");
-// Digital Sampler
-const steelDrumSampler = createSampler("./samples/steel-drum.wav");
+const digital_cowbellSampler = new Tone.Sampler({
+  C4: "./samples/digital-cowbell.wav",
+}).toDestination();
+// Tom Sampler
+const djembeSampler = new Tone.Sampler({
+  C4: "./samples/djembe.wav",
+}).toDestination();
+// clap
+const drum_sticksSampler = new Tone.Sampler({
+  C4: "./samples/drum-sticks.mp3",
+}).toDestination();
+// snare
+const digital_cowbell_2Sampler = new Tone.Sampler({
+  C4: "./samples/digital-cowbell-2.wav",
+}).toDestination();
+const short_bassSampler = new Tone.Sampler({
+  C4: "./samples/short-bass.wav",
+}).toDestination();
+// digital Sampler
+const steel_drumSampler = new Tone.Sampler({
+  C4: "./samples/steel-drum.wav",
+}).toDestination();
 
 // Get Elements for FX Button
 var reverbBTN =     document.getElementById("fx-left-btn1");
@@ -768,7 +780,7 @@ const snareBTN =  document.getElementById("snare-btn");
 const hi_hatBTN = document.getElementById("hi_hat-btn");
 const clapBTN =   document.getElementById("clap-btn");
 const tomBTN =    document.getElementById("tom-btn");
-const digital_tomBTN = document.getElementById("digital_tom-btn");
+const digital_tomBTN = document.getElementById("digital_tom-btn");  
 
 // Listeners for Rythm Buttons
 let kickEventListener,
