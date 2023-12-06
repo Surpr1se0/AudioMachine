@@ -715,7 +715,6 @@ var gainNodeRight = new Tone.Gain();
 fat.volume.value = -15;
 fat.connect(gainNodeRight);
 
-
 const kickSampler = new Tone.Sampler({
   C4: "./samples/kick.wav",
 }).toDestination();
@@ -737,58 +736,53 @@ const digital_tomSampler = new Tone.Sampler({
 const crashSampler = new Tone.Sampler({
   C4: "./samples/crash.mp3",
 }).toDestination();
-
 const digital_cowbellSampler = new Tone.Sampler({
   C4: "./samples/digital-cowbell.wav",
 }).toDestination();
-// Tom Sampler
 const djembeSampler = new Tone.Sampler({
   C4: "./samples/djembe.wav",
 }).toDestination();
-// clap
 const drum_sticksSampler = new Tone.Sampler({
   C4: "./samples/drum-sticks.mp3",
 }).toDestination();
-// snare
 const digital_cowbell_2Sampler = new Tone.Sampler({
   C4: "./samples/digital-cowbell-2.wav",
 }).toDestination();
 const short_bassSampler = new Tone.Sampler({
   C4: "./samples/short-bass.wav",
 }).toDestination();
-// digital Sampler
 const steel_drumSampler = new Tone.Sampler({
   C4: "./samples/steel-drum.wav",
 }).toDestination();
 
 // Get Elements for FX Button
-var reverbBTN =     document.getElementById("fx-left-btn1");
+var reverbBTN = document.getElementById("fx-left-btn1");
 var distortionBTN = document.getElementById("fx-left-btn2");
-var crusherBTN =    document.getElementById("fx-right-btn1");
-var tremoloBTN =    document.getElementById("fx-right-btn2");
+var crusherBTN = document.getElementById("fx-right-btn1");
+var tremoloBTN = document.getElementById("fx-right-btn2");
 
 const fxButtons = [reverbBTN, distortionBTN, crusherBTN, tremoloBTN];
 let activeEffect = null; // Active or Not Flag
 
 // Get Elements for Circle
-const circle_left =   document.getElementById("circle-left");
-const circle_right =  document.getElementById("circle-right");
+const circle_left = document.getElementById("circle-left");
+const circle_right = document.getElementById("circle-right");
 
 // Get Rythm Buttons
-const kickBTN =   document.getElementById("kick-btn");
-const snareBTN =  document.getElementById("snare-btn");
+const kickBTN = document.getElementById("kick-btn");
+const snareBTN = document.getElementById("snare-btn");
 const hi_hatBTN = document.getElementById("hi_hat-btn");
-const clapBTN =   document.getElementById("clap-btn");
-const tomBTN =    document.getElementById("tom-btn");
-const digital_tomBTN = document.getElementById("digital_tom-btn");  
+const clapBTN = document.getElementById("clap-btn");
+const tomBTN = document.getElementById("tom-btn");
+const digital_tomBTN = document.getElementById("digital_tom-btn");
 
 // Listeners for Rythm Buttons
 let kickEventListener,
-    snareEventListener,
-    hi_hatEventListener,
-    clapEventListener,
-    tomEventListener,
-    digitaltomEventListener = null;
+  snareEventListener,
+  hi_hatEventListener,
+  clapEventListener,
+  tomEventListener,
+  digitaltomEventListener = null;
 
 // Get Profile Buttons
 const profile1BTN = document.getElementById("profile-1-btn");
@@ -798,17 +792,18 @@ const profileButtons = document.querySelectorAll(".button-29");
 let currentProfile = null;
 
 // Add event listeners for the profile buttons -> probable errors in here
-profile1BTN.addEventListener("touchstart", function () {
+profile1BTN.addEventListener("click", function () {
   profile1BTN.classList.add("pressed");
   profile2BTN.classList.remove("pressed");
   setProfile(1);
 });
 
-profile2BTN.addEventListener("touchstart", function () {
+profile2BTN.addEventListener("click", function () {
   profile2BTN.classList.add("pressed");
   profile1BTN.classList.remove("pressed");
   setProfile(2);
 });
+
 
 // Function to set the correct sound to the profile
 function setProfile(profile) {
@@ -835,6 +830,8 @@ function setProfile(profile) {
       "linear-gradient(180deg, #3A86FF 0%, #00FF87 100%)"
     );
 
+    changeIcons("kick-icon", 'kick-icon.png');
+
     console.log("profile 1");
     setEventListeners(
       kickSampler.triggerAttack.bind(kickSampler, "C4"),
@@ -845,9 +842,21 @@ function setProfile(profile) {
       digital_tomSampler.triggerAttack.bind(digital_tomSampler, "C4")
     );
   } else if (profile === 2) {
-    changeButtonColors("kick-btn", "hi_hat-btn", "tom-btn", "lightblue");
+    changeButtonColors(
+      "kick-btn",
+      "hi_hat-btn",
+      "tom-btn",
+      "linear-gradient(180deg, #8821E7 0%, #8A2BE2 100%)"
+    );
 
-    changeButtonColors("clap-btn", "digital_tom-btn", "snare-btn", "lightblue");
+    changeButtonColors(
+      "clap-btn",
+      "digital_tom-btn",
+      "snare-btn",
+      "linear-gradient(180deg, #FF6347 0%, #8A2BE2 100%)"
+    );
+
+    changeIcons("kick-icon", 'clap-icon.webp');
 
     console.log("profile 2");
     setEventListeners(
@@ -863,7 +872,13 @@ function setProfile(profile) {
     );
   }
 }
-// Changes button colors 
+
+// Change icons
+function changeIcons(iconID, filename){
+  var iconElement = document.getElementById(iconID);
+  iconElement.style.backgroundImage = "url('./img/" + filename + "')";
+}
+// Changes button colors
 function changeButtonColors(btn1, btn2, btn3, color) {
   document.getElementById(btn1).style.background = color;
   document.getElementById(btn2).style.background = color;
