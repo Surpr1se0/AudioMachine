@@ -9,7 +9,7 @@ In this application the user can interact with diferente elements showing up on 
 
 Before you begin this guide you'll need the following:
 
-- Familiarity with [Anime.js]((https://animejs.com/))
+- Familiarity with [Anime.js](https://animejs.com/)
 - Familiarity with [Tone.js](https://tonejs.github.io/)
 - Familiarity with [Interact.js](https://interactjs.io/)
 
