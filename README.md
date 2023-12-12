@@ -1,8 +1,5 @@
 
 # Human Computer Interaction Project - Audio Machine
-
-![Main Page](https://github.com/Surpr1se0/RunChickenRun/assets/86316775/43284309-e879-41e7-ab95-baf74f540ead "Main Page")
-
 ### An audio machine with oscilators, rythm and modulation for a Human Computer Interaction Project.
 
 In this application the user can interact with diferente elements showing up on screen in order to produce diferent sounds, rythms and modulation effects. When using the oscilator, dragging in an upwards direction you can increase the volume of the oscilator, while dragging in a left->right movement, can increase the signal frequency.
@@ -12,9 +9,9 @@ In this application the user can interact with diferente elements showing up on 
 
 Before you begin this guide you'll need the following:
 
-- Familiarity with [Anime.js](https://threejs.org
-- Familiarity with [Tone.js](https://threejs.org/)
-- Familiarity with [Interact.js]()
+- Familiarity with [Anime.js]((https://animejs.com/))
+- Familiarity with [Tone.js](https://tonejs.github.io/)
+- Familiarity with [Interact.js](https://interactjs.io/)
 
 
 ## Concepts
